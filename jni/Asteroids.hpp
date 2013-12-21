@@ -4,28 +4,11 @@
 #include <memory>
 #include <vector>
 
+#include "Asteroid.hpp"
+
 namespace test {
 
   class Asteroids {
-
-	class Asteroid {
-	public:
-	  float x = 0;
-	  float y = 0;
-	  float angle = 0;
-	  float size = 0.1;
-	  float velX = 0;
-	  float velY = 0;
-	  float velAngle = 0;
-	  bool use = false;
-
-	  void Update(double dt);
-	  void Draw();
-	  void Respawn();
-
-	protected:
-	private:
-	};
 
   public:
 	void Init();
