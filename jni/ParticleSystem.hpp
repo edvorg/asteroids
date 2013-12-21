@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <functional>
+#include <stack>
 
 #include "RandomizeParams.hpp"
 #include "Misc.hpp"
@@ -14,8 +15,9 @@ namespace test {
   class ParticleSystem {
 
   public:
-	using PostSpawn = std::function<void (PARTICLE &)>;
 	using Period = std::function<float ()>;
+	using PostSpawn = std::function<void (PARTICLE &)>;
+	using PreDestroy = std::function<void (PARTICLE &)>;
 
 	ParticleSystem() = default;
 	virtual ~ParticleSystem() = default;
@@ -31,15 +33,19 @@ namespace test {
 
 	// some application parameters
 	void FieldSize(float newWidth, float newHeight);
-	void SetPeriod(Period newPeriod);
-	void SetPostSpawn(PostSpawn newPostSpawn);
+	void PushPeriod(Period newPeriod);
+	void PopPeriod();
+	void PushPostSpawn(PostSpawn newPostSpawn);
+	void PopPostSpawn();
+	void PushPreDestroy(PreDestroy newPreDestroy);
+	void PopPreDestroy();
 	void SetSpawning(bool enable);
 
   protected:
-  private:
 	void Spawn();
 	void Destroy(unsigned int index);
 
+  private:
 	std::vector<PARTICLE> pool;
 	int poolSize = 100;
 	double spawnTimer = 0.0;
@@ -50,9 +56,11 @@ namespace test {
 
 	// customization functions
 	// must return particles spawn period
-	Period period = [] { return 1.0f; };
+	std::stack<Period> periods;
 	// optional particle post process after creation
-	PostSpawn postSpawn = [] (PARTICLE &) {};
+	std::stack<PostSpawn> postSpawns;
+	// optional particle pre process after destroy
+	std::stack<PreDestroy> preDestroys;
   };
 
   template<class PARTICLE>
@@ -68,7 +76,10 @@ namespace test {
 	  if (spawnTimer > spawnPeriod && used < poolSize) {
 		Spawn();
 		spawnTimer = 0;
-		spawnPeriod = period();
+
+		if (periods.size()) {
+		  spawnPeriod = periods.top()();
+		}
 	  }
 	}
 
@@ -138,13 +149,39 @@ namespace test {
   }
 
   template<class PARTICLE>
-  void ParticleSystem<PARTICLE>::SetPeriod(Period newPeriod) {
-	period = newPeriod;
+  void ParticleSystem<PARTICLE>::PushPeriod(Period newPeriod) {
+	periods.push(newPeriod);
   }
 
   template<class PARTICLE>
-  void ParticleSystem<PARTICLE>::SetPostSpawn(PostSpawn newPostSpawn) {
-	postSpawn = newPostSpawn;
+  void ParticleSystem<PARTICLE>::PopPeriod() {
+	if (periods.size()) {
+	  periods.pop();
+	}
+  }
+
+  template<class PARTICLE>
+  void ParticleSystem<PARTICLE>::PushPostSpawn(PostSpawn newPostSpawn) {
+	postSpawns.push(newPostSpawn);
+  }
+
+  template<class PARTICLE>
+  void ParticleSystem<PARTICLE>::PopPostSpawn() {
+	if (postSpawns.size()) {
+	  postSpawns.pop();
+	}
+  }
+
+  template<class PARTICLE>
+  void ParticleSystem<PARTICLE>::PushPreDestroy(PreDestroy newPreDestroy) {
+	preDestroys.push(newPreDestroy);
+  }
+
+  template<class PARTICLE>
+  void ParticleSystem<PARTICLE>::PopPreDestroy() {
+	if (preDestroys.size()) {
+	  preDestroys.pop();
+	}
   }
 
   template<class PARTICLE>
@@ -159,14 +196,18 @@ namespace test {
 	  used++;
 	  pool[index].use = true;
 	  pool[index].Respawn(params);
-
-	  postSpawn(pool[index]);
+	  if (postSpawns.size()) {
+		postSpawns.top()(pool[index]);
+	  }
 	}
   }
 
   template<class PARTICLE>
   void ParticleSystem<PARTICLE>::Destroy(unsigned int index) {
 	if (index < used) {
+	  if (preDestroys.size()) {
+		preDestroys.top()(pool[index]);
+	  }
 	  pool[index].use = false;
 	  used--;
 

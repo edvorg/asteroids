@@ -7,11 +7,11 @@ namespace test {
   void Bullets::Init() {
 	ParticleSystem<Bullet>::Init();
 
-	SetPeriod([this] {
+	PushPeriod([this] {
 		return period;
 	  });
 
-	SetPostSpawn([this] (Bullet & bullet) {
+	PushPostSpawn([this] (Bullet & bullet) {
 		bullet.x = x;
 		bullet.y = y;
 		bullet.velX = cos((angle + 90.0f) / 180.0f * M_PI) * 100.0f;

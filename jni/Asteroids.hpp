@@ -19,6 +19,10 @@ namespace test {
 
   protected:
   private:
+	// minimum size of asteroid to crush in small parts
+	float minCrushSize = 5.0f;
+	int crushPartsCount = 3;
+	int crushPartsAwayVel = 10.0f;
   };
 
 }
