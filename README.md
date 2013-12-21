@@ -6,6 +6,7 @@ simple ndk experiment
 Requires:
 
 ndk and adk installed and configured
+
 ndk-build, android, adb and ant in $path
 
 How to build:
