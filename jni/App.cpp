@@ -9,28 +9,24 @@
 namespace test {
 
   void App::Init() {
+	asteroids.Init();
   }
 
   void App::Update(double dt) {
+	asteroids.Update(dt);
   }
 
   void App::Draw() {
-	GLfloat vertex[] = {
-	  x + 0.0f, y + 0.0f,
-	  x + 0.25f, y + 0.0f,
-	  x + 0.25f, y + 0.25f
-	};
 
-	GLubyte indices[] = {
-	  0, 1, 2
-	};
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrthof(-1.0f, 1.0f, -1.0f, 1.0f, 1.0f, -1.0f);
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(2, GL_FLOAT, 0, vertex);
-	glDrawElements(GL_LINE_LOOP, 3, GL_UNSIGNED_BYTE, indices);
+	asteroids.Draw();
   }
 
   void App::Release() {
+	asteroids.Release();
   }
 
   void App::Touch(float newX, float newY) {

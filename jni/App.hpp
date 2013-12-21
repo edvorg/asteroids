@@ -1,6 +1,8 @@
 #ifndef APP_HPP
 #define APP_HPP
 
+#include "Asteroids.hpp"
+
 namespace test {
 
   class App {
@@ -11,7 +13,7 @@ namespace test {
 	void Draw();
 	void Release();
 
-	// handle some parameters form device
+	// handle some parameters from device
 	void Touch(float newX, float newY);
 	void ScreenSize(float newWidth, float newHeight);
 
@@ -21,6 +23,7 @@ namespace test {
 	float y = 0.0f;
 	float width = 0.0f;
 	float height = 0.0f;
+	Asteroids asteroids;
   };
 
 }
