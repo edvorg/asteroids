@@ -7,7 +7,7 @@ namespace test {
 
   public:
 	void Init();
-	void Update();
+	void Update(double dt);
 	void Draw();
 	void Release();
 

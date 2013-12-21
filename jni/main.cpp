@@ -27,6 +27,9 @@
 #include <android_native_app_glue.h>
 
 #include "App.hpp"
+#include <sys/time.h>
+#include <time.h>
+#include <stdlib.h>
 
 #define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, "native-activity", __VA_ARGS__))
 #define LOGW(...) ((void)__android_log_print(ANDROID_LOG_WARN, "native-activity", __VA_ARGS__))
@@ -239,6 +242,8 @@ static void engine_handle_cmd(struct android_app* app, int32_t cmd) {
  * event loop for receiving input events and doing other things.
  */
 void android_main(struct android_app* state) {
+    srand((time(NULL)));
+
     struct engine engine;
 
     // Make sure glue isn't stripped.
@@ -265,6 +270,11 @@ void android_main(struct android_app* state) {
 	// init application
 
 	application.Init();
+	struct timeval prevTime;
+	struct timeval curTime = prevTime;
+	prevTime.tv_sec = 0;
+	prevTime.tv_usec = 0;
+	gettimeofday(&prevTime, NULL);
 
     // loop waiting for stuff to do.
 
@@ -305,14 +315,17 @@ void android_main(struct android_app* state) {
             }
         }
 
-		application.Update();
-
         if (engine.animating) {
             // Done with events; draw next animation frame.
             engine.state.angle += .01f;
             if (engine.state.angle > 1) {
                 engine.state.angle = 0;
             }
+
+			gettimeofday(&curTime, NULL);
+			application.Update(((double)curTime.tv_sec + (double)curTime.tv_usec / 1000000) -
+							   ((double)prevTime.tv_sec + (double)prevTime.tv_usec / 1000000.0));
+			prevTime = curTime;
 
             // Drawing is throttled to the screen update rate, so there
             // is no need to do timing here.

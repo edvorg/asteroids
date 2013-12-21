@@ -3,12 +3,15 @@
 #include <EGL/egl.h>
 #include <GLES/gl.h>
 
+#include <stdlib.h>
+#include <math.h>
+
 namespace test {
 
   void App::Init() {
   }
 
-  void App::Update() {
+  void App::Update(double dt) {
   }
 
   void App::Draw() {
