@@ -1,4 +1,4 @@
-CPP_FLAGS= -std=c++11
+CPP_FLAGS= -std=c++11 -I/home/edvorg/Projects/zepto/android-ndk-r9c/platforms/android-18/arch-arm/usr/include/ -I/home/edvorg/Projects/zepto/android-ndk-r9c/sources/android/native_app_glue/
 
 all:
 	clang++ ${CPP_FLAGS} main.cpp
