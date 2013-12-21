@@ -120,6 +120,7 @@ static int engine_init_display(struct engine* engine) {
     engine->surface = surface;
     engine->width = w;
     engine->height = h;
+	application.ScreenSize(w, h);
     engine->state.angle = 0;
 
     // Initialize GL state.
@@ -178,6 +179,7 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) 
         engine->animating = 1;
         engine->state.x = AMotionEvent_getX(event, 0);
         engine->state.y = AMotionEvent_getY(event, 0);
+		application.Touch(engine->state.x, engine->state.y);
         return 1;
     }
     return 0;
