@@ -1,6 +1,8 @@
 #ifndef MISC_HPP
 #define MISC_HPP
 
+#include <stdlib.h>
+
 namespace test {
 
   template<typename T>
