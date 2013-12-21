@@ -2,6 +2,7 @@
 #define ASTEROID_HPP
 
 #include "RandomizeParams.hpp"
+#include "Dimensions.hpp"
 
 namespace test {
 
@@ -19,6 +20,7 @@ namespace test {
 	  void Update(double dt);
 	  void Draw();
 	  void Respawn(const RandomizeParams & params);
+	  Dimensions GetDimensions() const;
 
 	protected:
 	private:

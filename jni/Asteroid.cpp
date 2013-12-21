@@ -55,4 +55,8 @@ namespace test {
 	velAngle = Rand<double>(-90.0, 90.0, 1.0);
   }
 
+  Dimensions Asteroid::GetDimensions() const {
+	return Dimensions(x, y, size);
+  }
+
 }

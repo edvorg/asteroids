@@ -77,6 +77,11 @@ namespace test {
   void Player::Release() {
   }
 
+  void Player::Kill(std::function<void ()> callback) {
+	spawned = false;
+	callback();
+  }
+
   void Player::Touch(float newX, float newY) {
 
 	if (!spawned) {
@@ -94,6 +99,10 @@ namespace test {
 	  targetX = newX;
 	  targetY = newY;
 	}
+  }
+
+  Dimensions Player::GetDimensions() const {
+	return Dimensions(x, y, size);
   }
 
 }

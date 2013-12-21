@@ -28,6 +28,7 @@ namespace test {
 	float fieldHeight = 100.0f;
 	Asteroids asteroids;
 	Player player1;
+	unsigned int lives = 3;
   };
 
 }

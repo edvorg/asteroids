@@ -1,6 +1,10 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
 
+#include <functional>
+
+#include "Dimensions.hpp"
+
 namespace test {
 
   class Player {
@@ -10,8 +14,13 @@ namespace test {
 	void Draw();
 	void Release();
 
-	// some data to handle from app
+	// try to kill player
+	void Kill(std::function<void ()> callback);
+
+	// process touch
 	void Touch(float newX, float newY);
+
+	Dimensions GetDimensions() const;
 
   protected:
   private:

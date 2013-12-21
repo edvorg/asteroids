@@ -3,9 +3,11 @@
 
 #include <memory>
 #include <vector>
+#include <functional>
 
 #include "Asteroid.hpp"
 #include "RandomizeParams.hpp"
+#include "Dimensions.hpp"
 
 namespace test {
 
@@ -17,11 +19,14 @@ namespace test {
 	void Draw();
 	void Release();
 
+	void Collide(const Dimensions & dimensions, std::function<void ()> callback);
+
 	// some application parameters
 	void FieldSize(float newWidth, float newHeight);
 
   protected:
 	void Spawn();
+	void Destroy(unsigned int index);
 
   private:
 	std::vector<Asteroid> asteroids;

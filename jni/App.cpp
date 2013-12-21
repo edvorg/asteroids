@@ -16,6 +16,12 @@ namespace test {
   void App::Update(double dt) {
 	player1.Update(dt);
 	asteroids.Update(dt);
+
+	asteroids.Collide(player1.GetDimensions(), [this] () {
+		player1.Kill([this] () {
+			lives--;
+		  });
+	  });
   }
 
   void App::Draw() {
@@ -36,7 +42,10 @@ namespace test {
   void App::Touch(float newX, float newY) {
 	x = newX / screenWidth * fieldWidth;
 	y = (1.0 - newY / screenHeight) * fieldHeight;
-	player1.Touch(x, y);
+
+	if (lives) {
+	  player1.Touch(x, y);
+	}
   }
 
   void App::ScreenSize(float newWidth, float newHeight) {
