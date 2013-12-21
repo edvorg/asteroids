@@ -17,7 +17,7 @@ namespace test {
   void Asteroid::Draw() {
 	// TODO rewrite using vertex buffer and array objects
 	static const int corners = 8;
-	static GLfloat vertices[corners];
+	static GLfloat vertices[corners * 2];
 	static GLubyte indices[corners];
 	static bool verticesInited = false;
 
