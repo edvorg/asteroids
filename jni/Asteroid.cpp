@@ -37,7 +37,7 @@ namespace test {
 	glPushMatrix();
 	glTranslatef(x, y, 0);
 	glRotatef(angle, 0, 0, 1);
-	glScalef(size, size, size);
+	glScalef(size, size, 1);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(2, GL_FLOAT, 0, vertices);
 	glDrawElements(GL_LINE_LOOP, corners, GL_UNSIGNED_BYTE, indices);
@@ -45,14 +45,14 @@ namespace test {
 	glPopMatrix();
   }
 
-  void Asteroid::Respawn() {
-	size = Rand(0.04, 0.1, 0.01);
-	x = Rand(- 1.0 + size, 1.0 - size, 0.01);
-	y = 1.0f + size;
+  void Asteroid::Respawn(const RandomizeParams & params) {
+	size = Rand<double>(1, 10, 1);
+	x = Rand<double>(0, params.fieldWidth, 1);
+	y = params.fieldHeight + size;
 	angle = 0;
-	velX = 0;
-	velY = - Rand(0.1, 0.5, 0.01);
-	velAngle = Rand(-90.0, 90.0, 1.0);
+	velX = Rand<double>(0.1, 1.0, 0.1);
+	velY = Rand<double>(-5, -20, -1);
+	velAngle = Rand<double>(-90.0, 90.0, 1.0);
   }
 
 }

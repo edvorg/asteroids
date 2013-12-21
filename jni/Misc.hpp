@@ -38,4 +38,4 @@ namespace test {
 
 }
 
-#endif MISC_HPP
+#endif// MISC_HPP

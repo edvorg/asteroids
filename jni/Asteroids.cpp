@@ -46,10 +46,20 @@ namespace test {
   void Asteroids::Release() {
   }
 
+  void Asteroids::FieldSize(float newWidth, float newHeight) {
+	params.fieldWidth = newWidth;
+	params.fieldHeight = newHeight;
+
+	for (unsigned int i = 0; i < poolSize; i++) {
+	  asteroids[i].use = false;
+	}
+	used = 0;
+  }
+
   void Asteroids::Spawn() {
 	if (used < poolSize) {
 	  asteroids[used].use = true;
-	  asteroids[used].Respawn();
+	  asteroids[used].Respawn(params);
 	  used++;
 	}
   }

@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "Asteroid.hpp"
+#include "RandomizeParams.hpp"
 
 namespace test {
 
@@ -16,6 +17,9 @@ namespace test {
 	void Draw();
 	void Release();
 
+	// some application parameters
+	void FieldSize(float newWidth, float newHeight);
+
   protected:
 	void Spawn();
 
@@ -25,7 +29,8 @@ namespace test {
 	double spawnPeriod = 1.0;
 	int used = 0;
 	int poolSize = 100;
+	RandomizeParams params;
   };
 }
 
-#endif ASTEROIDS_HPP
+#endif// ASTEROIDS_HPP

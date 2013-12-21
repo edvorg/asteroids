@@ -1,6 +1,8 @@
 #ifndef ASTEROID_HPP
 #define ASTEROID_HPP
 
+#include "RandomizeParams.hpp"
+
 namespace test {
 
 	class Asteroid {
@@ -16,7 +18,7 @@ namespace test {
 
 	  void Update(double dt);
 	  void Draw();
-	  void Respawn();
+	  void Respawn(const RandomizeParams & params);
 
 	protected:
 	private:
@@ -24,4 +26,4 @@ namespace test {
 
 }
 
-#endif ASTEROID_HPP
+#endif// ASTEROID_HPP

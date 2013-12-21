@@ -20,7 +20,7 @@ namespace test {
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrthof(-1.0f, 1.0f, -1.0f, 1.0f, 1.0f, -1.0f);
+	glOrthof(0, fieldWidth, 0, fieldHeight, 1, -1);
 
 	asteroids.Draw();
   }
@@ -30,13 +30,15 @@ namespace test {
   }
 
   void App::Touch(float newX, float newY) {
-	x = (newX / width - 0.5f) * 2.0f;
-	y = (- newY / height + 0.5f) * 2.0;
+	x =   (newX / screenWidth) * fieldWidth;
+	y = - (newY / screenHeight) * fieldHeight;
   }
 
   void App::ScreenSize(float newWidth, float newHeight) {
-	width = newWidth;
-	height = newHeight;
+	screenWidth = newWidth;
+	screenHeight = newHeight;
+	fieldHeight = fieldWidth * screenHeight / (screenWidth ? screenWidth : 1.0f);
+	asteroids.FieldSize(fieldWidth, fieldHeight);
   }
 
 }

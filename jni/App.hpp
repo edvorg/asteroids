@@ -21,8 +21,10 @@ namespace test {
   private:
 	float x = 0.0f;
 	float y = 0.0f;
-	float width = 0.0f;
-	float height = 0.0f;
+	float screenWidth = 0.0f;
+	float screenHeight = 0.0f;
+	const float fieldWidth = 100.0;
+	float fieldHeight = 100.0f;
 	Asteroids asteroids;
   };
 
