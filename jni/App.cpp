@@ -11,11 +11,17 @@ namespace test {
   void App::Init() {
 	player1.Init();
 	asteroids.Init();
+	bullets1.Init();
   }
 
   void App::Update(double dt) {
 	player1.Update(dt);
 	asteroids.Update(dt);
+	bullets1.Update(dt);
+
+	bullets1.SetPos(player1.GetX(), player1.GetY());
+	bullets1.SetAngle(player1.GetAngle());
+	bullets1.SetSpawning(player1.IsSpawned());
 
 	if (player1.IsSpawned()) {
 	  asteroids.Collide(player1.GetDimensions(), [this] () {
@@ -24,6 +30,8 @@ namespace test {
 			});
 		});
 	}
+
+	asteroids.Collide(bullets1);
   }
 
   void App::Draw() {
@@ -34,11 +42,13 @@ namespace test {
 
 	player1.Draw();
 	asteroids.Draw();
+	bullets1.Draw();
   }
 
   void App::Release() {
 	player1.Release();
 	asteroids.Release();
+	bullets1.Release();
   }
 
   void App::Touch(float newX, float newY) {
@@ -55,6 +65,7 @@ namespace test {
 	screenHeight = (newHeight > 0.1 ? newHeight : 1.0f);
 	fieldHeight = fieldWidth * screenHeight / screenWidth;
 	asteroids.FieldSize(fieldWidth, fieldHeight);
+	bullets1.FieldSize(fieldWidth, fieldHeight);
   }
 
 }

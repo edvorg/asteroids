@@ -1,12 +1,12 @@
-#ifndef ASTEROID_HPP
-#define ASTEROID_HPP
+#ifndef BULLET_HPP
+#define BULLET_HPP
 
 #include "RandomizeParams.hpp"
 #include "Dimensions.hpp"
 
 namespace test {
 
-  class Asteroid {
+  class Bullet {
 
   public:
 	float x = 0;
@@ -29,4 +29,4 @@ namespace test {
 
 }
 
-#endif// ASTEROID_HPP
+#endif// BULLET_HPP

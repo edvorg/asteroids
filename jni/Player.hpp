@@ -22,6 +22,9 @@ namespace test {
 
 	Dimensions GetDimensions() const;
 	inline bool IsSpawned() const { return spawned; }
+	inline float GetX() const { return x; }
+	inline float GetY() const { return y; }
+	inline float GetAngle() const { return angle; }
 
   protected:
   private:

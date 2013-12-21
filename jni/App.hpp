@@ -3,6 +3,7 @@
 
 #include "Asteroids.hpp"
 #include "Player.hpp"
+#include "Bullets.hpp"
 
 namespace test {
 
@@ -28,6 +29,7 @@ namespace test {
 	float fieldHeight = 100.0f;
 	Asteroids asteroids;
 	Player player1;
+	Bullets bullets1;
 	unsigned int lives = 3;
   };
 

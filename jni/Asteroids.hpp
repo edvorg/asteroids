@@ -12,7 +12,14 @@
 
 namespace test {
 
-  using Asteroids = ParticleSystem<Asteroid>;
+  class Asteroids : public ParticleSystem<Asteroid> {
+
+  public:
+	virtual void Init() override;
+
+  protected:
+  private:
+  };
 
 }
 
