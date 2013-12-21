@@ -2,6 +2,7 @@
 #define APP_HPP
 
 #include "Asteroids.hpp"
+#include "Player.hpp"
 
 namespace test {
 
@@ -26,6 +27,7 @@ namespace test {
 	const float fieldWidth = 100.0;
 	float fieldHeight = 100.0f;
 	Asteroids asteroids;
+	Player player1;
   };
 
 }
