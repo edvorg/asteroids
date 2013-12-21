@@ -17,11 +17,13 @@ namespace test {
 	player1.Update(dt);
 	asteroids.Update(dt);
 
-	asteroids.Collide(player1.GetDimensions(), [this] () {
-		player1.Kill([this] () {
-			lives--;
-		  });
-	  });
+	if (player1.IsSpawned()) {
+	  asteroids.Collide(player1.GetDimensions(), [this] () {
+		  player1.Kill([this] () {
+			  lives--;
+			});
+		});
+	}
   }
 
   void App::Draw() {

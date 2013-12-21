@@ -21,6 +21,7 @@ namespace test {
 	void Touch(float newX, float newY);
 
 	Dimensions GetDimensions() const;
+	inline bool IsSpawned() const { return spawned; }
 
   protected:
   private:
