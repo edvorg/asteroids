@@ -26,8 +26,14 @@
 #include <android/log.h>
 #include <android_native_app_glue.h>
 
+#include "App.hpp"
+
 #define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, "native-activity", __VA_ARGS__))
 #define LOGW(...) ((void)__android_log_print(ANDROID_LOG_WARN, "native-activity", __VA_ARGS__))
+
+// Our application
+
+test::App application;
 
 /**
  * Our saved state data.
@@ -135,9 +141,10 @@ static void engine_draw_frame(struct engine* engine) {
     }
 
     // Just fill the screen with a color.
-    glClearColor(((float)engine->state.x)/engine->width, engine->state.angle,
-            ((float)engine->state.y)/engine->height, 1);
+    glClearColor((float)0x55 / 255.0f, (float)0x62 / (float)255.0f, 0x70 / 255.0f, 1);
     glClear(GL_COLOR_BUFFER_BIT);
+
+	application.Draw();
 
     eglSwapBuffers(engine->display, engine->surface);
 }
@@ -197,8 +204,9 @@ static void engine_handle_cmd(struct android_app* app, int32_t cmd) {
             break;
         case APP_CMD_TERM_WINDOW:
             // The window is being hidden or closed, clean it up.
-            engine_term_display(engine);
-            break;
+		  engine_term_display(engine);
+		  application.Release();
+		  break;
         case APP_CMD_GAINED_FOCUS:
             // When our app gains focus, we start monitoring the accelerometer.
             if (engine->accelerometerSensor != NULL) {
@@ -252,6 +260,10 @@ void android_main(struct android_app* state) {
         engine.state = *(struct saved_state*)state->savedState;
     }
 
+	// init application
+
+	application.Init();
+
     // loop waiting for stuff to do.
 
     while (1) {
@@ -290,6 +302,8 @@ void android_main(struct android_app* state) {
                 return;
             }
         }
+
+		application.Update();
 
         if (engine.animating) {
             // Done with events; draw next animation frame.
