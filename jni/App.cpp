@@ -30,27 +30,27 @@ namespace test {
 	  int livesTotal = 0;
 	  int activeTotal = 0;
 
+	  auto callback = [&] (Asteroid & a, Asteroid & b) {
+		if (&a != &b) {
+		  // TODO improve algo using absolute rigid body law
+		  auto deltax = a.x - b.x;
+		  auto deltay = a.y - b.y;
+		  auto distance = sqrt(deltax * deltax + deltay * deltay);
+		  deltax /= distance;
+		  deltay /= distance;
+		  a.velX += deltax * b.size;
+		  a.velY += deltay * b.size;
+		  b.velX -= deltax * a.size;
+		  b.velY -= deltay * a.size;
+		}
+	  };
+
+	  asteroids.Collide<Asteroid>(asteroids, callback);
+	  asteroids.Collide<Asteroid>(spliceAsteroids, callback);
+	  spliceAsteroids.Collide<Asteroid>(spliceAsteroids, callback);
+
 	  for (int i = 0; i < maxPlayersCount; i++) {
 		players[i].Update(dt);
-
-		auto callback = [&] (Asteroid & a, Asteroid & b) {
-		  if (&a != &b) {
-			// TODO improve algo using absolute rigid body law
-			auto deltax = a.x - b.x;
-			auto deltay = a.y - b.y;
-			auto distance = sqrt(deltax * deltax + deltay * deltay);
-			deltax /= distance;
-			deltay /= distance;
-			a.velX += deltax * b.size;
-			a.velY += deltay * b.size;
-			b.velX -= deltax * a.size;
-			b.velY -= deltay * a.size;
-		  }
-		};
-
-		asteroids.Collide<Asteroid>(asteroids, callback);
-		asteroids.Collide<Asteroid>(spliceAsteroids, callback);
-		spliceAsteroids.Collide<Asteroid>(spliceAsteroids, callback);
 
 		players[i].CollideBullets<Asteroid>(asteroids, [&] (Asteroid & a, Bullet & b) {
 			a.dead = true;
