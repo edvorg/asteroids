@@ -30,46 +30,11 @@ namespace test {
 	  int livesTotal = 0;
 	  int activeTotal = 0;
 
-	  auto callback = [&] (Asteroid & a, Asteroid & b) {
-		if (&a != &b) {
-		  // TODO improve algo using absolute rigid body law
-		  auto deltax = a.x - b.x;
-		  auto deltay = a.y - b.y;
-		  auto distance = sqrt(deltax * deltax + deltay * deltay);
-		  deltax /= distance;
-		  deltay /= distance;
-		  a.velX += deltax * b.size;
-		  a.velY += deltay * b.size;
-		  b.velX -= deltax * a.size;
-		  b.velY -= deltay * a.size;
-		}
-	  };
-
-	  asteroids.Collide<Asteroid>(asteroids, callback);
-	  asteroids.Collide<Asteroid>(spliceAsteroids, callback);
-	  spliceAsteroids.Collide<Asteroid>(spliceAsteroids, callback);
+	  CollideAsteroids();
 
 	  for (int i = 0; i < maxPlayersCount; i++) {
 		players[i].Update(dt);
-
-		players[i].CollideBullets<Asteroid>(asteroids, [&] (Asteroid & a, Bullet & b) {
-			a.dead = true;
-			b.dead = true;
-		  });
-		players[i].CollideBullets<Asteroid>(spliceAsteroids, [&] (Asteroid & a, Bullet & b) {
-			a.dead = true;
-			b.dead = true;
-		  });
-		players[i].Collide<Asteroid>(asteroids, [&] (Asteroid & a, Player & p) {
-			p.Kill();
-			shaker.Shake();
-			a.dead = true;
-		  });
-		players[i].Collide<Asteroid>(spliceAsteroids, [&] (Asteroid & a, Player & p) {
-			p.Kill();
-			shaker.Shake();
-			a.dead = true;
-		  });
+		CollidePlayer(players[i]);
 
 		if (players[i].IsActive()) {
 		  activeTotal++;
@@ -160,6 +125,44 @@ namespace test {
 	for (int i = 0; i < maxPlayersCount; i++) {
 	  players[i].FieldSize(fieldWidth, fieldHeight);
 	}
+  }
+
+  void App::CollideAsteroids() {
+	  auto callback = [&] (Asteroid & a, Asteroid & b) {
+		if (&a != &b) {
+		  // TODO improve algo using absolute rigid body law
+		  auto deltax = a.x - b.x;
+		  auto deltay = a.y - b.y;
+		  auto distance = sqrt(deltax * deltax + deltay * deltay);
+		  deltax /= distance;
+		  deltay /= distance;
+		  a.velX += deltax * b.size;
+		  a.velY += deltay * b.size;
+		  b.velX -= deltax * a.size;
+		  b.velY -= deltay * a.size;
+		}
+	  };
+
+	  asteroids.Collide<Asteroid>(asteroids, callback);
+	  asteroids.Collide<Asteroid>(spliceAsteroids, callback);
+	  spliceAsteroids.Collide<Asteroid>(spliceAsteroids, callback);
+  }
+
+  void App::CollidePlayer(Player & player) {
+	auto callback1 = [&] (Asteroid & a, Bullet & b) {
+	  a.dead = true;
+	  b.dead = true;
+	};
+	auto callback2 = [&] (Asteroid & a, Player & p) {
+	  p.Kill();
+	  shaker.Shake();
+	  a.dead = true;
+	};
+
+	player.CollideBullets<Asteroid>(asteroids, callback1);
+	player.CollideBullets<Asteroid>(spliceAsteroids, callback1);
+	player.Collide<Asteroid>(asteroids, callback2);
+	player.Collide<Asteroid>(spliceAsteroids, callback2);
   }
 
 }

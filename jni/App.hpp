@@ -25,6 +25,9 @@ namespace test {
 
   protected:
   private:
+	void CollideAsteroids();
+	void CollidePlayer(Player & player);
+
 	const float fieldWidth = 100.0;
 	static const int maxPlayersCount = 2;
 	float fieldHeight = 100.0f;
