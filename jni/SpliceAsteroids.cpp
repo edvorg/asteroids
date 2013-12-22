@@ -1,8 +1,5 @@
 #include "SpliceAsteroids.hpp"
 
-#include <EGL/egl.h>
-#include <GLES/gl.h>
-
 #include <algorithm>
 #include "Misc.hpp"
 
