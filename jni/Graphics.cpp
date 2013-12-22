@@ -13,6 +13,12 @@
 
 namespace test {
 
+  void SetProjection(float fieldWidth, float fieldHeight) {
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrthof(0, fieldWidth, 0, fieldHeight, 1, -1);
+  }
+
   void DrawPlayer(const Player & player) {
 	// TODO rewrite using vertex buffer and array objects
 	static const int corners = 3;

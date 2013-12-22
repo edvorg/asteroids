@@ -9,6 +9,7 @@ namespace test {
   class Bullet;
   class LevelProgress;
 
+  void SetProjection(float fieldWidth, float fieldHeight);
   void DrawPlayer(const Player & player);
   void DrawAsteroid(const Asteroid & asteroid);
   void DrawDecorateStar(const DecorateStar & star);

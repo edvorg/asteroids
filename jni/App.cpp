@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <math.h>
 
+#include "Graphics.hpp"
+
 namespace test {
 
   void App::Init() {
@@ -90,10 +92,7 @@ namespace test {
   }
 
   void App::Draw() {
-
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrthof(0, fieldWidth, 0, fieldHeight, 1, -1);
+	SetProjection(fieldWidth, fieldHeight);
 
 	if (!progress.IsPaused()) {
 	  asteroids.Draw();
