@@ -125,7 +125,10 @@ namespace test {
 
 	progress.Touch(newX, newY);
 
-	if (!progress.IsPaused() && players[player].GetLives() > 0) {
+	if (!progress.IsPaused() &&
+		players[player].GetLives() > 0 &&
+		player < maxPlayersCount &&
+		player >= 0) {
 	  players[player].Touch(x, y);
 	}
   }
