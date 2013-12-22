@@ -29,7 +29,7 @@ namespace test {
 	  asteroids.SetLevel(progress.GetLevel());
 	  spliceAsteroids.SetLevel(progress.GetLevel());
 
-	  int livesTotal = 0;
+	  livesTotal = 0;
 	  int activeTotal = 0;
 
 	  CollideAsteroids();
@@ -73,6 +73,12 @@ namespace test {
 				 1,
 				 1.5,
 				 progress.GetLevel());
+	  DrawNumber(true,
+				 5.0f,
+				 fieldHeight - 10.0f,
+				 1,
+				 1.5,
+				 livesTotal);
 	}
 
 	SetTranslate(0, 0);

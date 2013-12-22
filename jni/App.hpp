@@ -39,6 +39,7 @@ namespace test {
  	DecorateStars stars;
 
 	Player players[maxPlayersCount];
+	int livesTotal = 0;
 
 	LevelProgress progress;
 	ScreenShaker shaker;
