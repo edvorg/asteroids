@@ -16,6 +16,7 @@ namespace test {
 	bullets1.Init();
 	bullets2.Init();
 	progress.Init();
+	stars.Init();
   }
 
   void App::Update(double dt) {
@@ -26,6 +27,7 @@ namespace test {
 	bullets1.Update(dt);
 	bullets2.Update(dt);
 	progress.Update(dt);
+	stars.Update(dt);
 
 	bullets1.SetPos(player1.GetX(), player1.GetY());
 	bullets1.SetAngle(player1.GetAngle());
@@ -97,6 +99,7 @@ namespace test {
 	bullets1.Draw();
 	bullets2.Draw();
 	progress.Draw();
+	stars.Draw();
   }
 
   void App::Release() {
@@ -107,6 +110,7 @@ namespace test {
 	bullets1.Release();
 	bullets2.Release();
 	progress.Release();
+	stars.Release();
   }
 
   void App::Touch(int player, float newX, float newY) {
@@ -151,6 +155,7 @@ namespace test {
 	bullets1.FieldSize(fieldWidth, fieldHeight);
 	bullets2.FieldSize(fieldWidth, fieldHeight);
 	progress.FieldSize(fieldWidth, fieldHeight);
+	stars.FieldSize(fieldWidth, fieldHeight);
   }
 
   int App::NearestPlayer(float coordX, float coordY) {

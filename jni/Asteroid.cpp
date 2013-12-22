@@ -3,7 +3,7 @@
 #include <EGL/egl.h>
 #include <GLES/gl.h>
 #include <stdlib.h>
-#include "math.h"
+#include <math.h>
 #include "Misc.hpp"
 
 namespace test {

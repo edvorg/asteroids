@@ -6,6 +6,7 @@
 #include "Player.hpp"
 #include "Bullets.hpp"
 #include "LevelProgress.hpp"
+#include "DecorateStars.hpp"
 
 namespace test {
 
@@ -42,6 +43,7 @@ namespace test {
 	float player1RespawnTimer = playerRespawnPeriod;
 	float player2RespawnTimer = playerRespawnPeriod;
 	LevelProgress progress;
+ 	DecorateStars stars;
   };
 
 }
