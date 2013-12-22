@@ -54,7 +54,6 @@ namespace test {
 	velX = another.velX;
 	velY = another.velY;
 	velAngle = another.velAngle;
-	use = another.use;
 	dead = another.dead;
 	return *this;
   }

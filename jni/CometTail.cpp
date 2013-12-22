@@ -8,7 +8,6 @@ namespace test {
 
   void CometTail::Init() {
 	Super::Init();
-	Super::Resize(poolSize);
 
 	PushPeriod([] {
 		return 0.001;
@@ -22,6 +21,10 @@ namespace test {
 		star.velX = - ownerVelX * 2;
 		star.velY = - ownerVelY * 2;
 	  });
+  }
+
+  void CometTail::Update(double dt) {
+	Super::Update(dt);
   }
 
 }

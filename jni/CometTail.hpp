@@ -12,6 +12,7 @@ namespace test {
 	using Super = ParticleSystem<DecorateStar>;
 
 	virtual void Init() override;
+	virtual void Update(double dt) override;
 
 	inline void SetOwnerX(float x) { ownerX = x; }
 	inline void SetOwnerY(float y) { ownerY = y; }

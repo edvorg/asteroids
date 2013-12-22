@@ -17,7 +17,6 @@ namespace test {
 	float velX = 0;
 	float velY = 0;
 	float velAngle = 0;
-	bool use = false;
 	bool dead = false;
 	CometTail tail;
 

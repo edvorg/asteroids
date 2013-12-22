@@ -15,7 +15,6 @@ namespace test {
 	float velX = 0;
 	float velY = 0;
 	float size = 1.0f;
-	bool use = false;
 	bool dead = false;
 
 	void Init();

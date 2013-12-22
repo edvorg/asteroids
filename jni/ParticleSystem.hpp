@@ -133,9 +133,6 @@ namespace test {
 
   template<class PARTICLE>
   void ParticleSystem<PARTICLE>::Clean() {
-	for (unsigned int i = 0; i < used; ++i) {
-	  pool[i].use = false;
-	}
 	used = 0;
   }
 
@@ -143,9 +140,6 @@ namespace test {
   void ParticleSystem<PARTICLE>::Resize(int newSize) {
 	pool.resize(newSize);
 	poolSize = newSize;
-	for (unsigned int i = 0; i < used; ++i) {
-	  pool[i].use = false;
-	}
 	used = 0;
   }
 
@@ -229,7 +223,6 @@ namespace test {
 	if (used < poolSize) {
 	  auto index = used;
 	  used++;
-	  pool[index].use = true;
 	  pool[index].Respawn(params);
 	  if (postSpawns.size()) {
 		postSpawns.top()(pool[index]);
@@ -243,12 +236,10 @@ namespace test {
 	  if (preDestroys.size()) {
 		preDestroys.top()(pool[index]);
 	  }
-	  pool[index].use = false;
 	  used--;
 
-	  if (pool[used].use) {
+	  if (index < used) {
 		pool[index] = pool[used];
-		pool[used].use = false;
 	  }
 	}
   }
