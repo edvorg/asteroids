@@ -16,7 +16,7 @@ namespace test {
 	void Release();
 
 	// handle some parameters from device
-	void Touch(float newX, float newY);
+	void Touch(int player, float newX, float newY);
 	void ScreenSize(float newWidth, float newHeight);
 
   protected:
@@ -29,8 +29,10 @@ namespace test {
 	float fieldHeight = 100.0f;
 	Asteroids asteroids;
 	Player player1;
+	Player player2;
 	Bullets bullets1;
-	unsigned int lives = 3;
+	Bullets bullets2;
+	int lives = 3;
   };
 
 }

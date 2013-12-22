@@ -182,7 +182,7 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) 
         engine->animating = 1;
         engine->state.x = AMotionEvent_getX(event, 0);
         engine->state.y = AMotionEvent_getY(event, 0);
-		application.Touch(engine->state.x, engine->state.y);
+		application.Touch(0, engine->state.x, engine->state.y);
         return 1;
     }
     return 0;

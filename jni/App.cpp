@@ -10,28 +10,44 @@ namespace test {
 
   void App::Init() {
 	player1.Init();
+	player2.Init();
 	asteroids.Init();
 	bullets1.Init();
+	bullets2.Init();
   }
 
   void App::Update(double dt) {
 	player1.Update(dt);
+	player2.Update(dt);
 	asteroids.Update(dt);
 	bullets1.Update(dt);
+	bullets2.Update(dt);
 
 	bullets1.SetPos(player1.GetX(), player1.GetY());
 	bullets1.SetAngle(player1.GetAngle());
 	bullets1.SetSpawning(player1.IsSpawned());
+	bullets2.SetPos(player2.GetX(), player2.GetY());
+	bullets2.SetAngle(player2.GetAngle());
+	bullets2.SetSpawning(player2.IsSpawned());
 
 	if (player1.IsSpawned()) {
 	  asteroids.Collide(player1.GetDimensions(), [this] () {
 		  player1.Kill([this] () {
-			  lives--;
+			  lives = std::max<int>(lives - 1, 0);
+			});
+		});
+	}
+
+	if (player2.IsSpawned()) {
+	  asteroids.Collide(player2.GetDimensions(), [this] () {
+		  player2.Kill([this] () {
+			  lives = std::max<int>(lives - 1, 0);
 			});
 		});
 	}
 
 	asteroids.Collide(bullets1);
+	asteroids.Collide(bullets2);
   }
 
   void App::Draw() {
@@ -41,22 +57,31 @@ namespace test {
 	glOrthof(0, fieldWidth, 0, fieldHeight, 1, -1);
 
 	player1.Draw();
+	player2.Draw();
 	asteroids.Draw();
 	bullets1.Draw();
+	bullets2.Draw();
   }
 
   void App::Release() {
 	player1.Release();
+	player2.Release();
 	asteroids.Release();
 	bullets1.Release();
+	bullets2.Release();
   }
 
-  void App::Touch(float newX, float newY) {
+  void App::Touch(int player, float newX, float newY) {
 	x = newX / screenWidth * fieldWidth;
 	y = (1.0 - newY / screenHeight) * fieldHeight;
 
-	if (lives) {
-	  player1.Touch(x, y);
+	if (lives > 0) {
+	  if (player == 0) {
+		player1.Touch(x, y);
+	  }
+	  else if (player == 1) {
+		player2.Touch(x, y);
+	  }
 	}
   }
 
@@ -66,6 +91,7 @@ namespace test {
 	fieldHeight = fieldWidth * screenHeight / screenWidth;
 	asteroids.FieldSize(fieldWidth, fieldHeight);
 	bullets1.FieldSize(fieldWidth, fieldHeight);
+	bullets2.FieldSize(fieldWidth, fieldHeight);
   }
 
 }
