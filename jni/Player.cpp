@@ -84,9 +84,11 @@ namespace test {
   }
 
   void Player::Kill() {
-	spawned = false;
-	lives = std::max<int>(lives - 1, 0);
-	respawnTimer = 0.0f;
+	if (spawned) {
+	  spawned = false;
+	  lives = std::max<int>(lives - 1, 0);
+	  respawnTimer = 0.0f;
+	}
   }
 
   void Player::Touch(float newX, float newY) {
@@ -117,7 +119,7 @@ namespace test {
   }
 
   Dimensions Player::GetDimensions() const {
-	return Dimensions(x, y, size);
+	return Dimensions(x, y, size * 0.5);
   }
 
 }

@@ -10,6 +10,9 @@ namespace test {
 
   class Player {
   public:
+	template<class PARTICLE>
+	using CollideCallback = std::function<void (PARTICLE &, Player &)>;
+
 	void Init();
 	void Update(double dt);
 	void Draw();
@@ -23,7 +26,7 @@ namespace test {
 
 	// collisions with particle systems
 	template<class PARTICLE>
-	void Collide(ParticleSystem<PARTICLE> & system, std::function<void ()> callback);
+	void Collide(ParticleSystem<PARTICLE> & system, CollideCallback<PARTICLE> callback);
 
 	void Reset();
 
@@ -56,9 +59,9 @@ namespace test {
   };
 
   template<class PARTICLE>
-  void Player::Collide(ParticleSystem<PARTICLE> & system, std::function<void ()> callback) {
+  void Player::Collide(ParticleSystem<PARTICLE> & system, CollideCallback<PARTICLE> callback) {
 	if (IsSpawned()) {
-	  system.Collide(GetDimensions(), callback);
+	  system.Collide(*this, callback);
 	}
   }
 

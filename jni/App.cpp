@@ -38,11 +38,40 @@ namespace test {
 		bullets[i].SetAngle(players[i].GetAngle());
 		bullets[i].SetSpawning(players[i].IsSpawned());
 
-		asteroids.Collide(bullets[i]);
-		spliceAsteroids.Collide(bullets[i]);
+		auto callback = [&] (Asteroid & a, Asteroid & b) {
+		  if (&a != &b) {
+			auto deltax = a.x - b.x;
+			auto deltay = a.y - b.y;
+			auto distance = sqrt(deltax * deltax + deltay * deltay);
+			deltax /= distance;
+			deltay /= distance;
+			a.velX += deltax;
+			a.velY += deltay;
+			b.velX -= deltax;
+			b.velY -= deltay;
+		  }
+		};
 
-		players[i].Collide(asteroids, [&] { players[i].Kill(); });
-		players[i].Collide(spliceAsteroids, [&] { players[i].Kill(); });
+		asteroids.Collide<Asteroid>(asteroids, callback);
+		asteroids.Collide<Asteroid>(spliceAsteroids, callback);
+		spliceAsteroids.Collide<Asteroid>(spliceAsteroids, callback);
+
+		asteroids.Collide<Bullet>(bullets[i], [&] (Asteroid & a, Bullet & b) {
+			a.dead = true;
+			b.dead = true;
+		  });
+		spliceAsteroids.Collide<Bullet>(bullets[i], [&] (Asteroid & a, Bullet & b) {
+			a.dead = true;
+			b.dead = true;
+		  });
+		players[i].Collide<Asteroid>(asteroids, [&] (Asteroid & a, Player & p) {
+			p.Kill();
+			a.dead = true;
+		  });
+		players[i].Collide<Asteroid>(spliceAsteroids, [&] (Asteroid & a, Player & p) {
+			p.Kill();
+			a.dead = true;
+		  });
 
 		if (players[i].IsActive()) {
 		  activeTotal++;

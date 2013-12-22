@@ -15,6 +15,7 @@ namespace test {
 
   protected:
   private:
+	const int poolSize = 500;
   };
 
 }

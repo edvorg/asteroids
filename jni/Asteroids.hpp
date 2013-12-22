@@ -23,7 +23,7 @@ namespace test {
 	float minCrushSize = 5.0f;
 	int crushPartsCount = 3;
 	int crushPartsAwayVel = 10.0f;
-	float periodKoeff = 0.99;
+	float periodKoeff = 0.9;
   };
 
 }

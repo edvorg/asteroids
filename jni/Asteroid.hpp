@@ -17,6 +17,7 @@ namespace test {
 	float velY = 0;
 	float velAngle = 0;
 	bool use = false;
+	bool dead = false;
 
 	void Update(double dt);
 	void Draw();

@@ -27,10 +27,12 @@ namespace test {
 	virtual void Draw();
 	virtual void Release();
 	virtual void Clean();
+	virtual void Resize(int newSize);
 
-	void Collide(const Dimensions & dimensions, std::function<void ()> callback);
 	template<class ANOTHER>
-	void Collide(ParticleSystem<ANOTHER> & another);
+	void Collide(ANOTHER & another, std::function<void (PARTICLE &, ANOTHER &)> callback);
+	template<class ANOTHER>
+	void Collide(ParticleSystem<ANOTHER> & another, std::function<void (PARTICLE &, ANOTHER &)> callback);
 
 	// some application parameters
 	void FieldSize(float newWidth, float newHeight);
@@ -90,10 +92,12 @@ namespace test {
 	for (unsigned int i = 0; i < used; ++i) {
 	  pool[i].Update(dt);
 
-	  if (pool[i].y < - params.fieldHeight ||
+	  if (pool[i].dead ||
+		  pool[i].y < - params.fieldHeight ||
 		  pool[i].y > params.fieldHeight * 2.0f ||
 		  pool[i].x < - params.fieldWidth ||
 		  pool[i].x > params.fieldWidth * 2.0f) {
+		pool[i].dead = false;
 		Destroy(i);
 	  }
 	}
@@ -119,32 +123,34 @@ namespace test {
   }
 
   template<class PARTICLE>
-  void ParticleSystem<PARTICLE>::Collide(const Dimensions & dimensions, std::function<void ()> callback) {
-	bool collided = false;
+  void ParticleSystem<PARTICLE>::Resize(int newSize) {
+	pool.resize(newSize);
+	poolSize = newSize;
 	for (unsigned int i = 0; i < used; ++i) {
-	  if (dimensions.Intersect(pool[i].GetDimensions())) {
-		Destroy(i);
-		collided = true;
-	  }
+	  pool[i].use = false;
 	}
+	used = 0;
+  }
 
-	if (collided) {
-	  callback();
+  template<class PARTICLE>
+  template <class ANOTHER>
+  void ParticleSystem<PARTICLE>::Collide(ANOTHER & another, std::function<void (PARTICLE &, ANOTHER &)> callback) {
+	for (unsigned int i = 0; i < used; ++i) {
+	  if (another.GetDimensions().Intersect(pool[i].GetDimensions())) {
+		callback(pool[i], another);
+	  }
 	}
   }
 
   template<class PARTICLE>
   template <class ANOTHER>
-  void ParticleSystem<PARTICLE>::Collide(ParticleSystem<ANOTHER> & another) {
+  void ParticleSystem<PARTICLE>::Collide(ParticleSystem<ANOTHER> & another, std::function<void (PARTICLE &, ANOTHER &)> callback) {
 	// TODO optimize this. complexity n^2 now, use aabb or something else
-
-	unsigned int i = 0;
-	auto callback = [&] {
-	  Destroy(i);
+	auto reversed = [&] (ANOTHER & a, PARTICLE & p) {
+	  callback(p, a);
 	};
-
-	for (; i < used; ++i) {
-	  another.Collide(pool[i].GetDimensions(), callback);
+	for (unsigned i = 0; i < used; i++) {
+	  another.template Collide<PARTICLE>(pool[i], reversed);
 	}
   }
 

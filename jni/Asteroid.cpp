@@ -51,7 +51,7 @@ namespace test {
 	y = params.fieldHeight + size;
 	angle = 0;
 	velX = Rand<double>(0.1, 1.0, 0.1);
-	velY = Rand<double>(-5, -20, -1);
+	velY = Rand<double>(-10, -30, -1);
 	velAngle = Rand<double>(-90.0, 90.0, 1.0);
   }
 
