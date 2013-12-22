@@ -18,9 +18,14 @@ namespace test {
 	  });
 
 	PushPostSpawn([&] (Asteroid & created) {
-		created.x -= GetFieldWidth();
-		created.velX = 55;
-		created.velY = -50;
+		created.x = Rand(- GetFieldWidth() * 0.5f,
+						 0.0f,
+						 0.1f);
+		created.y = Rand(GetFieldHeight() * 0.5f,
+						 GetFieldHeight() * 1.5f,
+						 0.1f);
+		created.velX = GetFieldWidth() * 0.25;
+		created.velY = - GetFieldHeight() * 0.125;
 
 		if (leftToRight) {
 		  created.x += GetFieldWidth() * 2.0f;
@@ -48,4 +53,11 @@ namespace test {
 	  }
 	}
   }
+
+  void SpliceAsteroids::SetLevel(unsigned int level) {
+	auto l = level + 1;
+	spawnPeriodActive = spawnPeriodActiveInitial / l / l;
+	spawnPeriodPassive = spawnPeriodPassiveInitial / l / l;
+  }
+
 }

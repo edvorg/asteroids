@@ -27,6 +27,7 @@ namespace test {
 	  spliceAsteroids.Update(dt);
 	  stars.Update(dt);
 	  asteroids.SetLevel(progress.GetLevel());
+	  spliceAsteroids.SetLevel(progress.GetLevel());
 
 	  int livesTotal = 0;
 	  int activeTotal = 0;
