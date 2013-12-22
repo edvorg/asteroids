@@ -23,7 +23,7 @@ namespace test {
 	float deltax = x - another.x;
 	float deltay = y - another.y;
 	float rads = rad + another.rad;
-	return (deltax * deltax + deltay * deltay < rad * rad);
+	return (deltax * deltax + deltay * deltay < rads * rads);
   }
 }
 
