@@ -35,6 +35,7 @@ namespace test {
 	inline float GetX() const { return x; }
 	inline float GetY() const { return y; }
 	inline float GetAngle() const { return angle; }
+	inline float GetSize() const { return size; }
 	inline int GetLives() const { return lives; }
 	inline int IsActive() const { return active; }
 

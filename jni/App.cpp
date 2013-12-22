@@ -1,8 +1,5 @@
 #include "App.hpp"
 
-#include <EGL/egl.h>
-#include <GLES/gl.h>
-
 #include <stdlib.h>
 #include <math.h>
 
@@ -45,10 +42,10 @@ namespace test {
 			auto distance = sqrt(deltax * deltax + deltay * deltay);
 			deltax /= distance;
 			deltay /= distance;
-			a.velX += deltax;
-			a.velY += deltay;
-			b.velX -= deltax;
-			b.velY -= deltay;
+			a.velX += deltax * b.size;
+			a.velY += deltay * b.size;
+			b.velX -= deltax * a.size;
+			b.velY -= deltay * a.size;
 		  }
 		};
 

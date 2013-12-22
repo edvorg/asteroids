@@ -18,15 +18,19 @@ namespace test {
 	void Touch(float x, float y);
 
 	inline bool IsPaused() const { return paused; }
+	inline RandomizeParams GetParams() const { return params; }
+	inline float GetLevelTime() const { return levelTime; }
+	inline float GetLevelTimer() const { return levelTimer; }
 
-  protected:
-  private:
 	const float levelTimeExtendKoeff = 1.5f;
 	const float levelTimeInitial = 20.0f;
 	const float lineWidth = 16.0f;
 	const float playLineWidth = 8.0f;
 	const float playButtonSize = 0.1f;
 	const float startTimerPeriod = 1.0f;
+
+  protected:
+  private:
 	float levelTime = levelTimeInitial;
 	float levelTimer = 0.0f;
 	RandomizeParams params;

@@ -1,13 +1,9 @@
 #include "Player.hpp"
 
-#include <EGL/egl.h>
-#include <GLES/gl.h>
-#include <stdlib.h>
 #include <math.h>
-#include <algorithm>
-#include <float.h>
 
-#include <Misc.hpp>
+#include "Misc.hpp"
+#include "Graphics.hpp"
 
 namespace test {
 
@@ -54,30 +50,7 @@ namespace test {
   }
 
   void Player::Draw() {
-	// TODO rewrite using vertex buffer and array objects
-	static const int corners = 3;
-	static GLfloat vertices[corners * 2] = {
-	  0.75, -1.0,
-	  0.0, 1.0,
-	  -0.75, -1.0,
-	};
-	static GLubyte indices[corners] = {
-	  0, 1, 2
-	};
-
-	if (spawned) {
-	  // render
-	  glMatrixMode(GL_MODELVIEW);
-	  glPushMatrix();
-	  glTranslatef(x, y, 0);
-	  glRotatef(angle, 0, 0, 1);
-	  glScalef(size, size, 1);
-	  glEnableClientState(GL_VERTEX_ARRAY);
-	  glVertexPointer(2, GL_FLOAT, 0, vertices);
-	  glDrawElements(GL_LINE_LOOP, corners, GL_UNSIGNED_BYTE, indices);
-	  glDisableClientState(GL_VERTEX_ARRAY);
-	  glPopMatrix();
-	}
+	DrawPlayer(*this);
   }
 
   void Player::Release() {
