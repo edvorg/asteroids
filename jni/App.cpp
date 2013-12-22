@@ -12,6 +12,7 @@ namespace test {
 	player1.Init();
 	player2.Init();
 	asteroids.Init();
+	spliceAsteroids.Init();
 	bullets1.Init();
 	bullets2.Init();
   }
@@ -20,6 +21,7 @@ namespace test {
 	player1.Update(dt);
 	player2.Update(dt);
 	asteroids.Update(dt);
+	spliceAsteroids.Update(dt);
 	bullets1.Update(dt);
 	bullets2.Update(dt);
 
@@ -36,6 +38,11 @@ namespace test {
 			  lives = std::max<int>(lives - 1, 0);
 			});
 		});
+	  spliceAsteroids.Collide(player1.GetDimensions(), [this] () {
+		  player1.Kill([this] () {
+			  lives = std::max<int>(lives - 1, 0);
+			});
+		});
 	}
 
 	if (player2.IsSpawned()) {
@@ -44,10 +51,17 @@ namespace test {
 			  lives = std::max<int>(lives - 1, 0);
 			});
 		});
+	  spliceAsteroids.Collide(player2.GetDimensions(), [this] () {
+		  player2.Kill([this] () {
+			  lives = std::max<int>(lives - 1, 0);
+			});
+		});
 	}
 
 	asteroids.Collide(bullets1);
 	asteroids.Collide(bullets2);
+	spliceAsteroids.Collide(bullets1);
+	spliceAsteroids.Collide(bullets2);
   }
 
   void App::Draw() {
@@ -59,6 +73,7 @@ namespace test {
 	player1.Draw();
 	player2.Draw();
 	asteroids.Draw();
+	spliceAsteroids.Draw();
 	bullets1.Draw();
 	bullets2.Draw();
   }
@@ -67,6 +82,7 @@ namespace test {
 	player1.Release();
 	player2.Release();
 	asteroids.Release();
+	spliceAsteroids.Release();
 	bullets1.Release();
 	bullets2.Release();
   }
@@ -102,6 +118,7 @@ namespace test {
 	screenHeight = (newHeight > 0.1 ? newHeight : 1.0f);
 	fieldHeight = fieldWidth * screenHeight / screenWidth;
 	asteroids.FieldSize(fieldWidth, fieldHeight);
+	spliceAsteroids.FieldSize(fieldWidth, fieldHeight);
 	bullets1.FieldSize(fieldWidth, fieldHeight);
 	bullets2.FieldSize(fieldWidth, fieldHeight);
   }

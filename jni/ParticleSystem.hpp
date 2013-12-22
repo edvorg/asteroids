@@ -41,6 +41,9 @@ namespace test {
 	void PopPreDestroy();
 	void SetSpawning(bool enable);
 
+	inline float GetFieldWidth() const { return params.fieldWidth; }
+	inline float GetFieldHeight() const { return params.fieldHeight; }
+
   protected:
 	void Spawn();
 	void Destroy(unsigned int index);
@@ -73,13 +76,12 @@ namespace test {
 	// spawn new pool on field
 	if (spawning) {
 	  spawnTimer += dt;
+	  if (periods.size()) {
+		spawnPeriod = periods.top()();
+	  }
 	  if (spawnTimer > spawnPeriod && used < poolSize) {
 		Spawn();
 		spawnTimer = 0;
-
-		if (periods.size()) {
-		  spawnPeriod = periods.top()();
-		}
 	  }
 	}
 
@@ -87,10 +89,10 @@ namespace test {
 	for (unsigned int i = 0; i < used; ++i) {
 	  pool[i].Update(dt);
 
-	  if (pool[i].y < - pool[i].size ||
-		  pool[i].y > params.fieldHeight + pool[i].size ||
-		  pool[i].x < - pool[i].size ||
-		  pool[i].x > params.fieldWidth + pool[i].size) {
+	  if (pool[i].y < - params.fieldHeight ||
+		  pool[i].y > params.fieldHeight * 2.0f ||
+		  pool[i].x < - params.fieldWidth ||
+		  pool[i].x > params.fieldWidth * 2.0f) {
 		Destroy(i);
 	  }
 	}
