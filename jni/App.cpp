@@ -39,6 +39,7 @@ namespace test {
 
 		auto callback = [&] (Asteroid & a, Asteroid & b) {
 		  if (&a != &b) {
+			// TODO improve algo using absolute rigid body law
 			auto deltax = a.x - b.x;
 			auto deltay = a.y - b.y;
 			auto distance = sqrt(deltax * deltax + deltay * deltay);
