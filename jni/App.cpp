@@ -15,6 +15,7 @@ namespace test {
 	spliceAsteroids.Init();
 	bullets1.Init();
 	bullets2.Init();
+	progress.Init();
   }
 
   void App::Update(double dt) {
@@ -24,6 +25,7 @@ namespace test {
 	spliceAsteroids.Update(dt);
 	bullets1.Update(dt);
 	bullets2.Update(dt);
+	progress.Update(dt);
 
 	bullets1.SetPos(player1.GetX(), player1.GetY());
 	bullets1.SetAngle(player1.GetAngle());
@@ -32,18 +34,32 @@ namespace test {
 	bullets2.SetAngle(player2.GetAngle());
 	bullets2.SetSpawning(player2.IsSpawned());
 
+	auto callback1 = [this] () {
+	  lives = std::max<int>(lives - 1, 0);
+	  player1RespawnTimer = 0.0f;
+
+	  if (!player2.IsSpawned() && lives < 1) {
+		progress.RestartGame();
+		lives = 3;
+	  }
+	};
+
+	auto callback2 = [this] () {
+	  lives = std::max<int>(lives - 1, 0);
+	  player2RespawnTimer = 0.0f;
+
+	  if (!player1.IsSpawned() && lives < 1) {
+		progress.RestartGame();
+		lives = 3;
+	  }
+	};
+
 	if (player1.IsSpawned()) {
-	  asteroids.Collide(player1.GetDimensions(), [this] () {
-		  player1.Kill([this] () {
-			  lives = std::max<int>(lives - 1, 0);
-			  player1RespawnTimer = 0.0f;
-			});
+	  asteroids.Collide(player1.GetDimensions(), [&] () {
+		  player1.Kill(callback1);
 		});
-	  spliceAsteroids.Collide(player1.GetDimensions(), [this] () {
-		  player1.Kill([this] () {
-			  lives = std::max<int>(lives - 1, 0);
-			  player1RespawnTimer = 0.0f;
-			});
+	  spliceAsteroids.Collide(player1.GetDimensions(), [&] () {
+		  player1.Kill(callback1);
 		});
 	}
 	else {
@@ -51,17 +67,11 @@ namespace test {
 	}
 
 	if (player2.IsSpawned()) {
-	  asteroids.Collide(player2.GetDimensions(), [this] () {
-		  player2.Kill([this] () {
-			  lives = std::max<int>(lives - 1, 0);
-			  player2RespawnTimer = 0.0f;
-			});
+	  asteroids.Collide(player2.GetDimensions(), [&] () {
+		  player2.Kill(callback2);
 		});
-	  spliceAsteroids.Collide(player2.GetDimensions(), [this] () {
-		  player2.Kill([this] () {
-			  lives = std::max<int>(lives - 1, 0);
-			  player2RespawnTimer = 0.0f;
-			});
+	  spliceAsteroids.Collide(player2.GetDimensions(), [&] () {
+		  player2.Kill(callback2);
 		});
 	}
 	else {
@@ -86,6 +96,7 @@ namespace test {
 	spliceAsteroids.Draw();
 	bullets1.Draw();
 	bullets2.Draw();
+	progress.Draw();
   }
 
   void App::Release() {
@@ -95,6 +106,7 @@ namespace test {
 	spliceAsteroids.Release();
 	bullets1.Release();
 	bullets2.Release();
+	progress.Release();
   }
 
   void App::Touch(int player, float newX, float newY) {
@@ -138,6 +150,7 @@ namespace test {
 	spliceAsteroids.FieldSize(fieldWidth, fieldHeight);
 	bullets1.FieldSize(fieldWidth, fieldHeight);
 	bullets2.FieldSize(fieldWidth, fieldHeight);
+	progress.FieldSize(fieldWidth, fieldHeight);
   }
 
   int App::NearestPlayer(float coordX, float coordY) {

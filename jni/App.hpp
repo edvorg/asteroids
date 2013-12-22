@@ -5,6 +5,7 @@
 #include "SpliceAsteroids.hpp"
 #include "Player.hpp"
 #include "Bullets.hpp"
+#include "LevelProgress.hpp"
 
 namespace test {
 
@@ -40,6 +41,7 @@ namespace test {
 	const float playerRespawnPeriod = 3.0f;
 	float player1RespawnTimer = playerRespawnPeriod;
 	float player2RespawnTimer = playerRespawnPeriod;
+	LevelProgress progress;
   };
 
 }
