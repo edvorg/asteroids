@@ -140,10 +140,26 @@ namespace test {
 	screenWidth = (newWidth > 0.1 ? newWidth : 1.0f);
 	screenHeight = (newHeight > 0.1 ? newHeight : 1.0f);
 	fieldHeight = fieldWidth * screenHeight / screenWidth;
+
 	asteroids.FieldSize(fieldWidth, fieldHeight);
+	asteroids.MarginLeft(10);
+	asteroids.MarginRight(10);
+	asteroids.MarginTop(fieldHeight * 0.5);
+	asteroids.MarginBottom(10);
+
 	spliceAsteroids.FieldSize(fieldWidth, fieldHeight);
-	progress.FieldSize(fieldWidth, fieldHeight);
+	spliceAsteroids.MarginLeft(fieldWidth);
+	spliceAsteroids.MarginRight(fieldWidth);
+	spliceAsteroids.MarginTop(fieldHeight * 0);
+	spliceAsteroids.MarginBottom(10);
+
 	stars.FieldSize(fieldWidth, fieldHeight);
+	stars.MarginLeft(10);
+	stars.MarginRight(10);
+	stars.MarginTop(10);
+	stars.MarginBottom(10);
+
+	progress.FieldSize(fieldWidth, fieldHeight);
 	for (int i = 0; i < maxPlayersCount; i++) {
 	  bullets[i].FieldSize(fieldWidth, fieldHeight);
 	}

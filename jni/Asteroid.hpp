@@ -3,6 +3,7 @@
 
 #include "RandomizeParams.hpp"
 #include "Dimensions.hpp"
+#include "CometTail.hpp"
 
 namespace test {
 
@@ -18,11 +19,16 @@ namespace test {
 	float velAngle = 0;
 	bool use = false;
 	bool dead = false;
+	CometTail tail;
 
+	void Init();
 	void Update(double dt);
 	void Draw();
+	void Release();
 	void Respawn(const RandomizeParams & params);
 	Dimensions GetDimensions() const;
+
+	Asteroid & operator =(const Asteroid & another);
 
   protected:
   private:

@@ -7,6 +7,10 @@
 
 namespace test  {
 
+  void Bullet::Init() {
+
+  }
+
   void Bullet::Update(double dt) {
 	x += velX * dt;
 	y += velY * dt;
@@ -15,6 +19,10 @@ namespace test  {
 
   void Bullet::Draw() {
 	DrawBullet(*this);
+  }
+
+  void Bullet::Release() {
+
   }
 
   void Bullet::Respawn(const RandomizeParams & params) {

@@ -6,6 +6,10 @@
 
 namespace test {
 
+  void DecorateStar::Init() {
+
+  }
+
   void DecorateStar::Update(double dt) {
 	x += velX * dt;
 	y += velY * dt;
@@ -13,6 +17,10 @@ namespace test {
 
   void DecorateStar::Draw() {
 	DrawDecorateStar(*this);
+  }
+
+  void DecorateStar::Release() {
+
   }
 
   void DecorateStar::Respawn(const test::RandomizeParams &params) {

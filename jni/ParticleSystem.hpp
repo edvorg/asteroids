@@ -36,6 +36,11 @@ namespace test {
 
 	// some application parameters
 	void FieldSize(float newWidth, float newHeight);
+	void FieldPos(float newX, float newY);
+	inline void MarginLeft(float left) { marginLeft = left; }
+	inline void MarginTop(float top) { marginTop = top; }
+	inline void MarginRight(float right) { marginRight = right; }
+	inline void MarginBottom(float bottom) { marginBottom = bottom; }
 	void PushPeriod(Period newPeriod);
 	void PopPeriod();
 	void PushPostSpawn(PostSpawn newPostSpawn);
@@ -59,6 +64,12 @@ namespace test {
 	int used = 0;
 	RandomizeParams params;
 	bool spawning = true;
+	float x = 0.0f;
+	float y = 0.0f;
+	float marginLeft = 0.0f;
+	float marginRight = 0.0f;
+	float marginTop = 0.0f;
+	float marginBottom = 0.0f;
 
 	// customization functions
 	// must return particles spawn period
@@ -72,6 +83,9 @@ namespace test {
   template<class PARTICLE>
   void ParticleSystem<PARTICLE>::Init() {
 	pool.resize(poolSize);
+	for (unsigned int i = 0; i < poolSize; i++) {
+	  pool[i].Init();
+	}
   }
 
   template<class PARTICLE>
@@ -93,12 +107,12 @@ namespace test {
 	  pool[i].Update(dt);
 
 	  if (pool[i].dead ||
-		  pool[i].y < - params.fieldHeight ||
-		  pool[i].y > params.fieldHeight * 2.0f ||
-		  pool[i].x < - params.fieldWidth ||
-		  pool[i].x > params.fieldWidth * 2.0f) {
-		pool[i].dead = false;
-		Destroy(i);
+	  	  pool[i].y < y - marginBottom ||
+	  	  pool[i].y > y + params.fieldHeight + marginTop ||
+	  	  pool[i].x < x - marginLeft ||
+	  	  pool[i].x > x + params.fieldWidth + marginRight) {
+	  	pool[i].dead = false;
+	  	Destroy(i);
 	  }
 	}
   }
@@ -112,6 +126,9 @@ namespace test {
 
   template<class PARTICLE>
   void ParticleSystem<PARTICLE>::Release() {
+	for (unsigned int i = 0; i < poolSize; i++) {
+	  pool[i].Release();
+	}
   }
 
   template<class PARTICLE>
@@ -158,11 +175,12 @@ namespace test {
   void ParticleSystem<PARTICLE>::FieldSize(float newWidth, float newHeight) {
 	params.fieldWidth = newWidth;
 	params.fieldHeight = newHeight;
+  }
 
-	for (unsigned int i = 0; i < used; ++i) {
-	  pool[i].use = false;
-	}
-	used = 0;
+  template<class PARTICLE>
+  void ParticleSystem<PARTICLE>::FieldPos(float newX, float newY) {
+	x = newX;
+	y = newY;
   }
 
   template<class PARTICLE>

@@ -63,6 +63,11 @@ namespace test {
 	  verticesInited = true;
 	}
 
+	GLfloat currentColor[4];
+	glGetFloatv(GL_CURRENT_COLOR, currentColor);
+
+	glColor4f(0x94 / 255.0f, 0x8c / 255.0f, 0x75 / 255.0f, 1.0f);
+
 	// render
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
@@ -74,6 +79,11 @@ namespace test {
 	glDrawElements(GL_LINE_LOOP, corners, GL_UNSIGNED_BYTE, indices);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glPopMatrix();
+
+	glColor4f(currentColor[0],
+			  currentColor[1],
+			  currentColor[2],
+			  currentColor[3]);
   }
   void DrawDecorateStar(const DecorateStar & star) {
 	// TODO rewrite using vertex buffer and array objects
@@ -94,8 +104,7 @@ namespace test {
 	glGetFloatv(GL_POINT_SIZE, &oldSize);
 
 	glPointSize(star.size);
-    glColor4f(0, 0, 0, std::abs(star.velY) / 20.0f  * 0.4f);
-    // glColor4f(0, 0, 0, 0.5);
+    glColor4f(0xbe / 255.0f, 0xb4 / 255.0f, 0xfa / 255.0f, std::abs(star.velY) / 20.0f * 4.0);
 
 	// render
 	glMatrixMode(GL_MODELVIEW);

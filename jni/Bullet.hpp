@@ -19,8 +19,10 @@ namespace test {
 	bool use = false;
 	bool dead = false;
 
+	void Init();
 	void Update(double dt);
 	void Draw();
+	void Release();
 	void Respawn(const RandomizeParams & params);
 	Dimensions GetDimensions() const;
 

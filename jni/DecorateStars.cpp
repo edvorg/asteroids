@@ -7,7 +7,7 @@ namespace test {
 	Super::Resize(poolSize);
 
 	PushPeriod([] {
-		return 0.05;
+		return 0.01;
 	  });
   }
 

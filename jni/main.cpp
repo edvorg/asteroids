@@ -145,7 +145,7 @@ static void engine_draw_frame(struct engine* engine) {
     }
 
     // Just fill the screen with a color.
-    glClearColor((float)0xf4 / 255.0f, (float)0xfc / (float)255.0f, 0xe8 / 255.0f, 1);
+    glClearColor(0xe1 / 255.0f, 0xfa / 255.0f, 0xfc / 255.0f, 1);
 	glColor4f(0xe4 / 255.0f, 0x56 / 255.0f, 0x35 / 255.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 	glLineWidth(2.1f);
