@@ -145,8 +145,10 @@ static void engine_draw_frame(struct engine* engine) {
     }
 
     // Just fill the screen with a color.
-    glClearColor((float)0x55 / 255.0f, (float)0x62 / (float)255.0f, 0x70 / 255.0f, 1);
+    glClearColor((float)0xf4 / 255.0f, (float)0xfc / (float)255.0f, 0xe8 / 255.0f, 1);
+	glColor4f(0xe4 / 255.0f, 0x56 / 255.0f, 0x35 / 255.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
+	glLineWidth(2.1f);
 
 	application.Draw();
 
@@ -180,9 +182,163 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) 
     struct engine* engine = (struct engine*)app->userData;
     if (AInputEvent_getType(event) == AINPUT_EVENT_TYPE_MOTION) {
         engine->animating = 1;
-        engine->state.x = AMotionEvent_getX(event, 0);
-        engine->state.y = AMotionEvent_getY(event, 0);
-		application.Touch(0, engine->state.x, engine->state.y);
+
+		auto count = AMotionEvent_getPointerCount(event);
+		int id0 = -1;
+		int id1 = -1;
+
+		id0 = AMotionEvent_getPointerId(event, 0);
+		if (count > 1) {
+		  id1 = AMotionEvent_getPointerId(event, 1);
+		}
+
+		static int playerslot0 = -1;
+		static int playerslot1 = -1;
+		static int playerslot0index = -1;
+		static int playerslot1index = -1;
+
+		auto action = AKeyEvent_getAction(event);
+		auto getX = [&] (int index) {
+		  return AMotionEvent_getX(event, index);
+		};
+		auto getY = [&] (int index) {
+		  return AMotionEvent_getY(event, index);
+		};
+
+		switch (action & AMOTION_EVENT_ACTION_MASK) {
+		case AMOTION_EVENT_ACTION_DOWN:
+		  break;
+		case AMOTION_EVENT_ACTION_POINTER_DOWN:
+		  break;
+		case AMOTION_EVENT_ACTION_MOVE:
+		  if (playerslot0 == -1) {
+			if (playerslot1 == id0) {
+			  if (count > 1) {
+				playerslot0 = id1;
+				playerslot0index = 1;
+				application.Touch(0,
+								  getX(playerslot0index),
+								  getY(playerslot0index));
+			  }
+			}
+			else {
+			  playerslot0 = id0;
+			  playerslot0index = 0;
+			  application.Touch(0,
+								getX(playerslot0index),
+								getY(playerslot0index));
+			}
+		  }
+		  else {
+			if (playerslot0 == id0) {
+			  playerslot0index = 0;
+			  application.Touch(0,
+								getX(playerslot0index),
+								getY(playerslot0index));
+			}
+			else if (playerslot0 == id1 && count > 1) {
+			  playerslot0index = 1;
+			  application.Touch(0,
+								getX(playerslot0index),
+								getY(playerslot0index));
+			}
+		  }
+
+		  if (playerslot1 == -1) {
+			if (playerslot0 == id0) {
+			  if (count > 1) {
+				playerslot1index = 1;
+				playerslot1 = id1;
+				application.Touch(1,
+								  getX(playerslot1index),
+								  getY(playerslot1index));
+			  }
+			}
+			else {
+			  playerslot1index = 0;
+			  playerslot1 = id0;
+			  application.Touch(1,
+								getX(playerslot1index),
+								getY(playerslot1index));
+			}
+		  }
+		  else {
+			if (playerslot1 == id0) {
+			  playerslot1index = 0;
+			  application.Touch(1,
+								getX(playerslot1index),
+								getY(playerslot1index));
+			}
+			else if (playerslot1 == id1 && count > 1) {
+			  playerslot1index = 1;
+			  application.Touch(1,
+								getX(playerslot1index),
+								getY(playerslot1index));
+			}
+		  }
+
+		  // if (count == 1) {
+		  // 	if (playerslot0 != -1 && playerslot1 == -1) {
+		  // 	  nearest = application.NearestPlayer(getX(playerslot0index),
+		  // 										  getY(playerslot0index));
+
+		  // 	  if (nearest == 1) {
+		  // 		std::swap(playerslot0, playerslot1);
+		  // 		std::swap(playerslot0index, playerslot1index);
+		  // 	  }
+		  // 	}
+		  // 	else if (playerslot1 != -1 && playerslot0 == -1) {
+		  // 	  if (playerslot0 != -1 && playerslot1 == -1) {
+		  // 		nearest = application.NearestPlayer(getX(playerslot0index),
+		  // 											getY(playerslot0index));
+
+		  // 		if (nearest == 1) {
+		  // 		  std::swap(playerslot0, playerslot1);
+		  // 		  std::swap(playerslot0index, playerslot1index);
+		  // 		}
+		  // 	  }
+		  // 	}
+		  // }
+		  // else if (count == 2) {
+		  // }
+
+		  break;
+		case AMOTION_EVENT_ACTION_UP:
+		  if (id0 != -1) {
+		  	if (id0 == playerslot0) {
+		  	  playerslot0 = -1;
+			  playerslot0index = -1;
+		  	  application.TouchEnd(0, 0, 0);
+		  	}
+		  	else if (id0 == playerslot1) {
+		  	  playerslot1 = -1;
+			  playerslot1index = -1;
+		  	  application.TouchEnd(1, 0, 0);
+		  	}
+		  }
+
+		  if (count > 1 && id1 != -1) {
+		  	if (id1 == playerslot0) {
+		  	  playerslot0 = -1;
+			  playerslot0index = -1;
+		  	  application.TouchEnd(0, 0, 0);
+		  	}
+		  	else if (id1 == playerslot1) {
+		  	  playerslot1 = -1;
+			  playerslot1index = -1;
+		  	  application.TouchEnd(1, 0, 0);
+		  	}
+		  }
+		  break;
+		case AMOTION_EVENT_ACTION_CANCEL:
+		  break;
+		case AMOTION_EVENT_ACTION_POINTER_UP:
+		  break;
+		default:
+		  break;
+		}
+
+
         return 1;
     }
     return 0;

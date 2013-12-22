@@ -75,13 +75,25 @@ namespace test {
 	x = newX / screenWidth * fieldWidth;
 	y = (1.0 - newY / screenHeight) * fieldHeight;
 
-	if (lives > 0) {
+	if (lives > 0 || player1.IsSpawned() || player2.IsSpawned()) {
 	  if (player == 0) {
 		player1.Touch(x, y);
 	  }
 	  else if (player == 1) {
 		player2.Touch(x, y);
 	  }
+	}
+  }
+
+  void App::TouchEnd(int player, float newX, float newY) {
+	x = newX / screenWidth * fieldWidth;
+	y = (1.0 - newY / screenHeight) * fieldHeight;
+
+	if (player == 0) {
+	  // player1.Kill([] {});
+	}
+	else if (player == 1) {
+	  // player2.Kill([] {});
 	}
   }
 
@@ -92,6 +104,25 @@ namespace test {
 	asteroids.FieldSize(fieldWidth, fieldHeight);
 	bullets1.FieldSize(fieldWidth, fieldHeight);
 	bullets2.FieldSize(fieldWidth, fieldHeight);
+  }
+
+  int App::NearestPlayer(float coordX, float coordY) {
+	int result = 0;
+
+	if (player1.IsSpawned() && player2.IsSpawned()) {
+
+	  float deltax1 = coordX - player1.GetX();
+	  float deltay1 = coordY - player1.GetY();
+	  float deltax2 = coordX - player2.GetX();
+	  float deltay2 = coordY - player2.GetY();
+
+	  if ((deltax1 * deltax1 + deltay1 * deltay1) >
+		  (deltax2 * deltax2 + deltay2 * deltay2)) {
+		result = 1;
+	  }
+	}
+
+	return result;
   }
 
 }

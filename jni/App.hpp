@@ -17,7 +17,11 @@ namespace test {
 
 	// handle some parameters from device
 	void Touch(int player, float newX, float newY);
+	void TouchEnd(int player, float newX, float newY);
 	void ScreenSize(float newWidth, float newHeight);
+
+	// return nearest player id
+	int NearestPlayer(float coordX, float coordY);
 
   protected:
   private:
