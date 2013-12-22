@@ -2,6 +2,7 @@
 
 #include <stdlib.h>
 #include <math.h>
+#include <algorithm>
 
 #include "Graphics.hpp"
 
@@ -52,6 +53,7 @@ namespace test {
 		asteroids.Clean();
 		spliceAsteroids.Clean();
 		stars.Clean();
+		scoreTotal = 0.0f;
 	  }
 	}
   }
@@ -79,6 +81,12 @@ namespace test {
 				 1,
 				 1.5,
 				 livesTotal);
+	  DrawNumber(true,
+				 5.0f + fieldWidth * 0.5,
+				 fieldHeight - 10.0f,
+				 1,
+				 1.5,
+				 scoreTotal);
 	}
 
 	SetTranslate(0, 0);
@@ -170,6 +178,7 @@ namespace test {
 	auto callback1 = [&] (Asteroid & a, Bullet & b) {
 	  a.dead = true;
 	  b.dead = true;
+	  scoreTotal += std::abs(a.velX * a.velY);
 	};
 	auto callback2 = [&] (Asteroid & a, Player & p) {
 	  p.Kill();

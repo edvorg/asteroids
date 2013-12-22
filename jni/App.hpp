@@ -40,6 +40,7 @@ namespace test {
 
 	Player players[maxPlayersCount];
 	int livesTotal = 0;
+	float scoreTotal = 0.0f;
 
 	LevelProgress progress;
 	ScreenShaker shaker;
