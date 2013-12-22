@@ -17,7 +17,7 @@ namespace test {
 	if (levelTimer > levelTime) {
 	  levelTimer = 0.0f;
 	  levelTime *= levelTimeExtendKoeff;
-	  currentLevel++;
+	  level++;
 	}
   }
 
@@ -39,7 +39,7 @@ namespace test {
 
   void LevelProgress::RestartGame() {
 	levelTimer = 0.0f;
-	currentLevel = 1;
+	level = 0;
 	levelTime = levelTimeInitial + 1.0;
 	paused = true;
   }

@@ -21,6 +21,7 @@ namespace test {
 	inline RandomizeParams GetParams() const { return params; }
 	inline float GetLevelTime() const { return levelTime; }
 	inline float GetLevelTimer() const { return levelTimer; }
+	inline unsigned int GetLevel() const { return level; }
 
 	const float levelTimeExtendKoeff = 1.5f;
 	const float levelTimeInitial = 20.0f;
@@ -34,7 +35,7 @@ namespace test {
 	float levelTime = levelTimeInitial;
 	float levelTimer = 0.0f;
 	RandomizeParams params;
-	int currentLevel = 1;
+	unsigned int level = 0;
 	bool paused = true;
 	float startTimer = startTimerPeriod + 1.0;
   };

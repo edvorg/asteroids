@@ -2,14 +2,15 @@
 
 #include <algorithm>
 #include "Misc.hpp"
+#include <math.h>
 
 namespace test {
 
   void Asteroids::Init() {
-	ParticleSystem<Asteroid>::Init();
+	Super::Init();
 
 	PushPeriod([this] {
-		return Rand(1.0, 4.0, 0.01) * periodKoeff;
+		return Rand<float>(periodMin, periodMax, 0.01);
 	  });
 
 	PushPreDestroy([&] (Asteroid & destroyed) {
@@ -39,4 +40,15 @@ namespace test {
 		}
 	  });
   }
+
+  void Asteroids::Update(double dt) {
+	Super::Update(dt);
+  }
+
+  void Asteroids::SetLevel(unsigned int level) {
+	auto l = level + 1;
+	periodMin = periodMinInitial / l / l;
+	periodMax = periodMaxInitial / l;
+  }
+
 }

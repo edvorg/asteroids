@@ -15,15 +15,24 @@ namespace test {
   class Asteroids : public ParticleSystem<Asteroid> {
 
   public:
+	using Super = ParticleSystem<Asteroid>;
+
 	virtual void Init() override;
+	virtual void Update(double dt) override;
+
+	void SetLevel(unsigned int level);
 
   protected:
   private:
+	const float periodMinInitial = 1.0f;
+	const float periodMaxInitial = 2.0f;
 	// minimum size of asteroid to crush in small parts
 	float minCrushSize = 5.0f;
 	int crushPartsCount = 3;
 	int crushPartsAwayVel = 10.0f;
-	float periodKoeff = 0.9;
+	float periodKoeff = 0.999;
+	float periodMin = periodMinInitial;
+	float periodMax = periodMaxInitial;
   };
 
 }
