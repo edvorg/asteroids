@@ -22,6 +22,20 @@ namespace test {
   void App::Update(double dt) {
 	progress.Update(dt);
 
+	if (shake) {
+	  shakeTimer += dt;
+	  if (shakeTimer > shakeTime) {
+		shake = false;
+		SetTranslate(0, 0);
+		shakeTimer = 0.0f;
+	  }
+	  else {
+		auto amplitude = (1.0 - shakeTimer / shakeTime) * 5.0;
+		auto angle = shakeTimer / shakeTime * M_PI * 2.0f * 10.0f;
+		SetTranslate(amplitude * sin(angle), 0);
+	  }
+	}
+
 	if (!progress.IsPaused()) {
 	  asteroids.Update(dt);
 	  spliceAsteroids.Update(dt);
@@ -66,10 +80,12 @@ namespace test {
 		  });
 		players[i].Collide<Asteroid>(asteroids, [&] (Asteroid & a, Player & p) {
 			p.Kill();
+			ShakeScreen();
 			a.dead = true;
 		  });
 		players[i].Collide<Asteroid>(spliceAsteroids, [&] (Asteroid & a, Player & p) {
 			p.Kill();
+			ShakeScreen();
 			a.dead = true;
 		  });
 
@@ -96,6 +112,15 @@ namespace test {
 	SetProjection(fieldWidth, fieldHeight);
 
 	if (!progress.IsPaused()) {
+	  if (shake) {
+		auto amplitude = (1.0 - shakeTimer / shakeTime) * 1.0;
+		auto angle = shakeTimer / shakeTime * M_PI * 2.0f * 10.0f;
+		SetTranslate(amplitude * sin(angle), 0);
+	  }
+	  else {
+		SetTranslate(0, 0);
+	  }
+
 	  asteroids.Draw();
 	  spliceAsteroids.Draw();
 	  stars.Draw();
@@ -105,6 +130,7 @@ namespace test {
 	  }
 	}
 
+	SetTranslate(0, 0);
 	progress.Draw();
   }
 
@@ -117,6 +143,10 @@ namespace test {
 	  players[i].Release();
 	  bullets[i].Release();
 	}
+  }
+
+  void App::ShakeScreen() {
+	shake = true;
   }
 
   void App::Touch(int player, float newX, float newY) {

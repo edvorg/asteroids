@@ -13,6 +13,12 @@
 
 namespace test {
 
+  void SetTranslate(float x, float y) {
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glTranslatef(x, y, 0);
+  }
+
   void SetProjection(float fieldWidth, float fieldHeight) {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
