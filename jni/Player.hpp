@@ -5,6 +5,7 @@
 
 #include "Dimensions.hpp"
 #include "ParticleSystem.hpp"
+#include "CometTail.hpp"
 
 namespace test {
 
@@ -57,6 +58,7 @@ namespace test {
 	float respawnTimer = respawnPeriod + 1.0f;
 	int lives = livesInitial;
 	bool active = false;
+	CometTail tail;
   };
 
   template<class PARTICLE>

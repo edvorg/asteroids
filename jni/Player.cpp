@@ -8,10 +8,13 @@
 namespace test {
 
   void Player::Init() {
-
+	tail.Init();
   }
 
   void Player::Update(double dt) {
+
+	tail.Update(dt);
+	tail.SetSpawning(IsSpawned());
 
 	if (!IsSpawned()) {
 	  respawnTimer += dt;
@@ -47,13 +50,26 @@ namespace test {
 
 	x += velX;
 	y += velY;
+
+	auto dirx = cos((angle + 90.0f) * M_PI / 180.0f) * 10.0f;
+	auto diry = sin((angle + 90.0f) * M_PI / 180.0f) * 10.0f;
+
+	tail.SetOwnerX(x - dirx);
+	tail.SetOwnerY(y - diry);
+	tail.SetOwnerSize(size * 0.5);
+	tail.SetOwnerVelX(dirx);
+	tail.SetOwnerVelY(diry);
+	tail.FieldSize(size * 4, size * 4);
+	tail.FieldPos(x - size * 2 - dirx, y - size * 2 - diry);
   }
 
   void Player::Draw() {
 	DrawPlayer(*this);
+	tail.Draw();
   }
 
   void Player::Release() {
+	tail.Release();
   }
 
   void Player::Kill() {
