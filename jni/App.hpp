@@ -4,7 +4,6 @@
 #include "Asteroids.hpp"
 #include "SpliceAsteroids.hpp"
 #include "Player.hpp"
-#include "Bullets.hpp"
 #include "LevelProgress.hpp"
 #include "DecorateStars.hpp"
 #include "ScreenShaker.hpp"
@@ -37,7 +36,6 @@ namespace test {
  	DecorateStars stars;
 
 	Player players[maxPlayersCount];
-	Bullets bullets[maxPlayersCount];
 
 	LevelProgress progress;
 	ScreenShaker shaker;

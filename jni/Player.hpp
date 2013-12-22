@@ -6,11 +6,14 @@
 #include "Dimensions.hpp"
 #include "ParticleSystem.hpp"
 #include "CometTail.hpp"
+#include "Bullets.hpp"
 
 namespace test {
 
   class Player {
   public:
+	template<class PARTICLE>
+	using CollideBulletsCallback = std::function<void (PARTICLE &, Bullet &)>;
 	template<class PARTICLE>
 	using CollideCallback = std::function<void (PARTICLE &, Player &)>;
 
@@ -28,6 +31,9 @@ namespace test {
 	// collisions with particle systems
 	template<class PARTICLE>
 	void Collide(ParticleSystem<PARTICLE> & system, CollideCallback<PARTICLE> callback);
+	// collisions with bullets
+	template<class PARTICLE>
+	void CollideBullets(ParticleSystem<PARTICLE> & system, CollideBulletsCallback<PARTICLE> callback);
 
 	void Reset();
 
@@ -39,6 +45,7 @@ namespace test {
 	inline float GetSize() const { return size; }
 	inline int GetLives() const { return lives; }
 	inline int IsActive() const { return active; }
+	inline void FieldSize(float w, float h) { bullets.FieldSize(w, h); }
 
   protected:
   private:
@@ -59,6 +66,7 @@ namespace test {
 	int lives = livesInitial;
 	bool active = false;
 	CometTail tail;
+	Bullets bullets;
   };
 
   template<class PARTICLE>
@@ -66,6 +74,11 @@ namespace test {
 	if (IsSpawned()) {
 	  system.Collide(*this, callback);
 	}
+  }
+
+  template<class PARTICLE>
+  void Player::CollideBullets(ParticleSystem<PARTICLE> & system, CollideBulletsCallback<PARTICLE> callback) {
+	system.template Collide<Bullet>(bullets, callback);
   }
 
 }

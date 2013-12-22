@@ -15,7 +15,6 @@ namespace test {
 
 	for (int i = 0; i < maxPlayersCount; i++) {
 	  players[i].Init();
-	  bullets[i].Init();
 	}
   }
 
@@ -33,10 +32,6 @@ namespace test {
 
 	  for (int i = 0; i < maxPlayersCount; i++) {
 		players[i].Update(dt);
-		bullets[i].Update(dt);
-		bullets[i].SetPos(players[i].GetX(), players[i].GetY());
-		bullets[i].SetAngle(players[i].GetAngle());
-		bullets[i].SetSpawning(players[i].IsSpawned());
 
 		auto callback = [&] (Asteroid & a, Asteroid & b) {
 		  if (&a != &b) {
@@ -57,11 +52,11 @@ namespace test {
 		asteroids.Collide<Asteroid>(spliceAsteroids, callback);
 		spliceAsteroids.Collide<Asteroid>(spliceAsteroids, callback);
 
-		asteroids.Collide<Bullet>(bullets[i], [&] (Asteroid & a, Bullet & b) {
+		players[i].CollideBullets<Asteroid>(asteroids, [&] (Asteroid & a, Bullet & b) {
 			a.dead = true;
 			b.dead = true;
 		  });
-		spliceAsteroids.Collide<Bullet>(bullets[i], [&] (Asteroid & a, Bullet & b) {
+		players[i].CollideBullets<Asteroid>(spliceAsteroids, [&] (Asteroid & a, Bullet & b) {
 			a.dead = true;
 			b.dead = true;
 		  });
@@ -85,7 +80,6 @@ namespace test {
 	  if (livesTotal < 1 && activeTotal) {
 		for (int i = 0; i < maxPlayersCount; i++) {
 		  players[i].Reset();
-		  bullets[i].Clean();
 		}
 		progress.RestartGame();
 		asteroids.Clean();
@@ -105,7 +99,6 @@ namespace test {
 	  stars.Draw();
 	  for (int i = 0; i < maxPlayersCount; i++) {
 		players[i].Draw();
-		bullets[i].Draw();
 	  }
 	}
 
@@ -120,7 +113,6 @@ namespace test {
 	stars.Release();
 	for (int i = 0; i < maxPlayersCount; i++) {
 	  players[i].Release();
-	  bullets[i].Release();
 	}
   }
 
@@ -166,7 +158,7 @@ namespace test {
 
 	progress.FieldSize(fieldWidth, fieldHeight);
 	for (int i = 0; i < maxPlayersCount; i++) {
-	  bullets[i].FieldSize(fieldWidth, fieldHeight);
+	  players[i].FieldSize(fieldWidth, fieldHeight);
 	}
   }
 

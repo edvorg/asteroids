@@ -9,12 +9,18 @@ namespace test {
 
   void Player::Init() {
 	tail.Init();
+	bullets.Init();
   }
 
   void Player::Update(double dt) {
 
 	tail.Update(dt);
 	tail.SetSpawning(IsSpawned());
+
+	bullets.Update(dt);
+	bullets.SetPos(GetX(), GetY());
+	bullets.SetAngle(GetAngle());
+	bullets.SetSpawning(IsSpawned());
 
 	if (!IsSpawned()) {
 	  respawnTimer += dt;
@@ -66,10 +72,12 @@ namespace test {
   void Player::Draw() {
 	DrawPlayer(*this);
 	tail.Draw();
+	bullets.Draw();
   }
 
   void Player::Release() {
 	tail.Release();
+	bullets.Release();
   }
 
   void Player::Kill() {
@@ -105,6 +113,7 @@ namespace test {
 	lives = livesInitial;
 	active = false;
 	respawnTimer = respawnPeriod + 1.0f;
+	bullets.Clean();
   }
 
   Dimensions Player::GetDimensions() const {
