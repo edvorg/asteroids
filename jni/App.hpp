@@ -26,8 +26,6 @@ namespace test {
 
   protected:
   private:
-	float x = 0.0f;
-	float y = 0.0f;
 	float screenWidth = 0.0f;
 	float screenHeight = 0.0f;
 	const float fieldWidth = 100.0;
@@ -39,6 +37,9 @@ namespace test {
 	Bullets bullets1;
 	Bullets bullets2;
 	int lives = 3;
+	const float playerRespawnPeriod = 3.0f;
+	float player1RespawnTimer = playerRespawnPeriod;
+	float player2RespawnTimer = playerRespawnPeriod;
   };
 
 }

@@ -36,26 +36,36 @@ namespace test {
 	  asteroids.Collide(player1.GetDimensions(), [this] () {
 		  player1.Kill([this] () {
 			  lives = std::max<int>(lives - 1, 0);
+			  player1RespawnTimer = 0.0f;
 			});
 		});
 	  spliceAsteroids.Collide(player1.GetDimensions(), [this] () {
 		  player1.Kill([this] () {
 			  lives = std::max<int>(lives - 1, 0);
+			  player1RespawnTimer = 0.0f;
 			});
 		});
+	}
+	else {
+	  player1RespawnTimer += dt;
 	}
 
 	if (player2.IsSpawned()) {
 	  asteroids.Collide(player2.GetDimensions(), [this] () {
 		  player2.Kill([this] () {
 			  lives = std::max<int>(lives - 1, 0);
+			  player2RespawnTimer = 0.0f;
 			});
 		});
 	  spliceAsteroids.Collide(player2.GetDimensions(), [this] () {
 		  player2.Kill([this] () {
 			  lives = std::max<int>(lives - 1, 0);
+			  player2RespawnTimer = 0.0f;
 			});
 		});
+	}
+	else {
+	  player2RespawnTimer += dt;
 	}
 
 	asteroids.Collide(bullets1);
@@ -88,23 +98,30 @@ namespace test {
   }
 
   void App::Touch(int player, float newX, float newY) {
-	x = newX / screenWidth * fieldWidth;
-	y = (1.0 - newY / screenHeight) * fieldHeight;
+	auto x = newX / screenWidth * fieldWidth;
+	auto y = (1.0 - newY / screenHeight) * fieldHeight;
 
-	if (lives > 0 || player1.IsSpawned() || player2.IsSpawned()) {
-	  if (player == 0) {
+	if (player == 0) {
+	  if (player1.IsSpawned()) {
 		player1.Touch(x, y);
 	  }
-	  else if (player == 1) {
+	  else if (player1RespawnTimer > playerRespawnPeriod && lives > 0) {
+		player1.Touch(x, y);
+		player1RespawnTimer = 0.0f;
+	  }
+	}
+	else if (player == 1) {
+	  if (player2.IsSpawned()) {
 		player2.Touch(x, y);
+	  }
+	  else if (player2RespawnTimer > playerRespawnPeriod && lives > 0) {
+		player2.Touch(x, y);
+		player2RespawnTimer = 0.0f;
 	  }
 	}
   }
 
   void App::TouchEnd(int player, float newX, float newY) {
-	x = newX / screenWidth * fieldWidth;
-	y = (1.0 - newY / screenHeight) * fieldHeight;
-
 	if (player == 0) {
 	  // player1.Kill([] {});
 	}
