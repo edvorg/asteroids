@@ -11,6 +11,8 @@
 #include "Player.hpp"
 #include "LevelProgress.hpp"
 
+#include <stack>
+
 namespace test {
 
   void SetTranslate(float x, float y) {
@@ -23,6 +25,217 @@ namespace test {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrthof(0, fieldWidth, 0, fieldHeight, 1, -1);
+  }
+
+  void DrawNumber(bool fromLeft, float x, float y, float sizex, float sizey, unsigned int number) {
+	if (fromLeft) {
+	  std::stack<unsigned int> digits;
+
+	  do {
+		digits.push(number % 10);
+		number /= 10;
+	  } while (number);
+
+	  while (digits.size()) {
+		DrawDigit(x, y, sizex, sizey, digits.top());
+		x += sizex * 2.5f;
+		digits.pop();
+	  }
+	}
+	else {
+	  do {
+		DrawDigit(x, y, sizex, sizey, number % 10);
+		x -= sizex * 2.5f;
+		number /= 10;
+	  } while (number);
+	}
+  }
+
+  void DrawDigit(float x, float y, float sizex, float sizey, unsigned int digit) {
+
+	int corners = 0;
+	void * vertices = nullptr;
+	void * indices = nullptr;
+
+	if (digit == 0) {
+	  static const int corn = 5;
+	  static GLfloat verts[corn * 2] = {
+		- 1.0f, - 1.0f,
+		- 1.0f, 1.0f,
+		1.0f, 1.0f,
+		1.0f, - 1.0f,
+		- 1.0f, - 1.0f,
+	  };
+	  static GLubyte inds[corn] = {
+		0, 1, 2, 3, 4
+	  };
+	  corners = corn;
+	  vertices = verts;
+	  indices = inds;
+	}
+	else if (digit == 1) {
+	  static const int corn = 2;
+	  static GLfloat verts[corn * 2] = {
+		1.0f, 1.0f,
+		1.0f, - 1.0f,
+	  };
+	  static GLubyte inds[corn] = {
+		0, 1,
+	  };
+	  corners = corn;
+	  vertices = verts;
+	  indices = inds;
+	}
+	else if (digit == 2) {
+	  static const int corn = 6;
+	  static GLfloat verts[corn * 2] = {
+		- 1.0f, 1.0f,
+		1.0f, 1.0f,
+		1.0f, 0.0f,
+		- 1.0f, 0.0f,
+		- 1.0f, - 1.0f,
+		1.0f, - 1.0f,
+	  };
+	  static GLubyte inds[corn] = {
+		0, 1, 2, 3, 4, 5,
+	  };
+	  corners = corn;
+	  vertices = verts;
+	  indices = inds;
+	}
+	else if (digit == 3) {
+	  static const int corn = 7;
+	  static GLfloat verts[corn * 2] = {
+		- 1.0f, 1.0f,
+		1.0f, 1.0f,
+		1.0f, 0.0f,
+		-1.0f, 0.0f,
+		1.0f, 0.0f,
+		1.0f, -1.0f,
+		- 1.0f, - 1.0f,
+	  };
+	  static GLubyte inds[corn] = {
+		0, 1, 2, 3, 4, 5, 6,
+	  };
+	  corners = corn;
+	  vertices = verts;
+	  indices = inds;
+	}
+	else if (digit == 4) {
+	  static const int corn = 5;
+	  static GLfloat verts[corn * 2] = {
+		- 1.0f, 1.0f,
+		- 1.0f, 0.0f,
+		1.0f, 0.0f,
+		1.0f, 1.0f,
+		1.0f, -1.0f,
+	  };
+	  static GLubyte inds[corn] = {
+		0, 1, 2, 3, 4,
+	  };
+	  corners = corn;
+	  vertices = verts;
+	  indices = inds;
+	}
+	else if (digit == 5) {
+	  static const int corn = 6;
+	  static GLfloat verts[corn * 2] = {
+		1.0f, 1.0f,
+		- 1.0f, 1.0f,
+		- 1.0f, 0.0f,
+		1.0f, 0.0f,
+		1.0f, - 1.0f,
+		- 1.0f, - 1.0f,
+	  };
+	  static GLubyte inds[corn] = {
+		0, 1, 2, 3, 4, 5,
+	  };
+	  corners = corn;
+	  vertices = verts;
+	  indices = inds;
+	}
+	else if (digit == 6) {
+	  static const int corn = 7;
+	  static GLfloat verts[corn * 2] = {
+		1.0f, 1.0f,
+		- 1.0f, 1.0f,
+		- 1.0f, 0.0f,
+		1.0f, 0.0f,
+		1.0f, - 1.0f,
+		- 1.0f, - 1.0f,
+		- 1.0f, 0.0f,
+	  };
+	  static GLubyte inds[corn] = {
+		0, 1, 2, 3, 4, 5, 6,
+	  };
+	  corners = corn;
+	  vertices = verts;
+	  indices = inds;
+	}
+	else if (digit == 7) {
+	  static const int corn = 3;
+	  static GLfloat verts[corn * 2] = {
+		- 1.0f, 1.0f,
+		1.0f, 1.0f,
+		1.0f, - 1.0f,
+	  };
+	  static GLubyte inds[corn] = {
+		0, 1, 2,
+	  };
+	  corners = corn;
+	  vertices = verts;
+	  indices = inds;
+	}
+	else if (digit == 8) {
+	  static const int corn = 8;
+	  static GLfloat verts[corn * 2] = {
+		- 1.0f, 0.0f,
+		- 1.0f, - 1.0f,
+		1.0f,- 1.0f,
+		1.0f, 0.0f,
+		- 1.0f, 0.0f,
+		- 1.0f, 1.0f,
+		1.0f, 1.0f,
+		1.0f, 0.0f,
+	  };
+	  static GLubyte inds[corn] = {
+		0, 1, 2, 3, 4, 5, 6, 7,
+	  };
+	  corners = corn;
+	  vertices = verts;
+	  indices = inds;
+	}
+	else if (digit == 9) {
+	  static const int corn = 7;
+	  static GLfloat verts[corn * 2] = {
+		- 1.0f, - 1.0f,
+		1.0f,- 1.0f,
+		1.0f, 0.0f,
+		- 1.0f, 0.0f,
+		- 1.0f, 1.0f,
+		1.0f, 1.0f,
+		1.0f, 0.0f,
+	  };
+	  static GLubyte inds[corn] = {
+		0, 1, 2, 3, 4, 5, 6,
+	  };
+	  corners = corn;
+	  vertices = verts;
+	  indices = inds;
+	}
+
+	// render
+	if (corners && vertices && indices) {
+	  glMatrixMode(GL_MODELVIEW);
+	  glPushMatrix();
+	  glTranslatef(x, y, 0);
+	  glScalef(sizex, sizey, 1);
+	  glEnableClientState(GL_VERTEX_ARRAY);
+	  glVertexPointer(2, GL_FLOAT, 0, vertices);
+	  glDrawElements(GL_LINE_STRIP, corners, GL_UNSIGNED_BYTE, indices);
+	  glDisableClientState(GL_VERTEX_ARRAY);
+	  glPopMatrix();
+	}
   }
 
   void DrawPlayer(const Player & player) {

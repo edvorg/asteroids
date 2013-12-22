@@ -126,6 +126,10 @@ namespace test {
 	progress.FieldSize(fieldWidth, fieldHeight);
 	for (int i = 0; i < maxPlayersCount; i++) {
 	  players[i].FieldSize(fieldWidth, fieldHeight);
+	  auto x = 5 + (fieldWidth - 10.0f) / (maxPlayersCount - 1) * i;
+	  players[i].RespawnTimeCorner(x,
+								   5,
+								   x < fieldWidth * 0.5 ? true : false);
 	}
   }
 

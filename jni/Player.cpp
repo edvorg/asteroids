@@ -71,6 +71,15 @@ namespace test {
 	DrawPlayer(*this);
 	tail.Draw();
 	bullets.Draw();
+
+	if (!IsSpawned() && respawnTimer < respawnPeriod && GetLives() > 0 && IsActive()) {
+	  DrawNumber(respawnTimerFromLeft,
+				 respawnTimerX,
+				 respawnTimerY,
+				 1,
+				 1.5,
+				 std::max<float>(0.1f, 1.0f + respawnPeriod - respawnTimer));
+	}
   }
 
   void Player::Release() {
@@ -121,6 +130,14 @@ namespace test {
   void Player::FieldSize(float w, float h) {
 	bullets.FieldSize(w, h);
 	tail.FieldSize(w, h);
+	fieldWidth = w;
+	fieldHeight = h;
+  }
+
+  void Player::RespawnTimeCorner(float x, float y, bool fromLeft) {
+	respawnTimerX = x;
+	respawnTimerY = y;
+	respawnTimerFromLeft = fromLeft;
   }
 
 }

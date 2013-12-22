@@ -46,11 +46,14 @@ namespace test {
 	inline int GetLives() const { return lives; }
 	inline int IsActive() const { return active; }
 	void FieldSize(float w, float h);
+	void RespawnTimeCorner(float x, float y, bool fromLeft);
 
   protected:
   private:
 	const float respawnPeriod = 3.0f;
 	const int livesInitial = 3;
+	float fieldWidth = 100.0f;
+	float fieldHeight = 100.0f;
 	bool spawned = false;
 	float x = 0.0f;
 	float y = 0.0f;
@@ -67,6 +70,9 @@ namespace test {
 	bool active = false;
 	CometTail tail;
 	Bullets bullets;
+	float respawnTimerX = 0.0f;
+	float respawnTimerY = 0.0f;
+	float respawnTimerFromLeft = true;
   };
 
   template<class PARTICLE>
