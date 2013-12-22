@@ -16,6 +16,7 @@ namespace test {
 
   public:
 	using Period = std::function<float ()>;
+	using Life = std::function<float ()>;
 	using PostSpawn = std::function<void (PARTICLE &)>;
 	using PreDestroy = std::function<void (PARTICLE &)>;
 
@@ -43,6 +44,8 @@ namespace test {
 	inline void MarginBottom(float bottom) { marginBottom = bottom; }
 	void PushPeriod(Period newPeriod);
 	void PopPeriod();
+	void PushLife(Life newLife);
+	void PopLife();
 	void PushPostSpawn(PostSpawn newPostSpawn);
 	void PopPostSpawn();
 	void PushPreDestroy(PreDestroy newPreDestroy);
@@ -74,6 +77,8 @@ namespace test {
 	// customization functions
 	// must return particles spawn period
 	std::stack<Period> periods;
+	// optional particle life limit
+	std::stack<Life> lifes;
 	// optional particle post process after creation
 	std::stack<PostSpawn> postSpawns;
 	// optional particle pre process after destroy
@@ -107,10 +112,18 @@ namespace test {
 	  pool[i].Update(dt);
 
 	  if (pool[i].dead ||
+		  (lifes.size() && pool[i].lifeTimer > lifes.top()()) ||
+
+		  (pool[i].y < y && pool[i].velY < 0.0f) ||
+		  (pool[i].y > y + params.fieldHeight && pool[i].velY > 0.0f) ||
+		  (pool[i].x < x && pool[i].velX < 0.0f) ||
+		  (pool[i].x > x + params.fieldWidth && pool[i].velX > 0.0f) ||
+
 	  	  pool[i].y < y - marginBottom ||
 	  	  pool[i].y > y + params.fieldHeight + marginTop ||
 	  	  pool[i].x < x - marginLeft ||
 	  	  pool[i].x > x + params.fieldWidth + marginRight) {
+
 	  	pool[i].dead = false;
 	  	Destroy(i);
 	  }
@@ -187,6 +200,18 @@ namespace test {
   void ParticleSystem<PARTICLE>::PopPeriod() {
 	if (periods.size()) {
 	  periods.pop();
+	}
+  }
+
+  template<class PARTICLE>
+  void ParticleSystem<PARTICLE>::PushLife(Life newLife) {
+	lifes.push(newLife);
+  }
+
+  template<class PARTICLE>
+  void ParticleSystem<PARTICLE>::PopLife() {
+	if (lifes.size()) {
+	  lifes.pop();
 	}
   }
 

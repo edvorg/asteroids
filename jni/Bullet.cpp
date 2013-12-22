@@ -15,6 +15,7 @@ namespace test  {
 	x += velX * dt;
 	y += velY * dt;
 	angle += velAngle * dt;
+	lifeTimer += dt;
   }
 
   void Bullet::Draw() {
@@ -34,6 +35,7 @@ namespace test  {
 	velX = Rand<double>(0.1, 1.0, 0.1);
 	velY = Rand<double>(-5, -20, -1);
 	velAngle = Rand<double>(-90.0, 90.0, 1.0);
+	lifeTimer = 0.0f;
   }
 
   Dimensions Bullet::GetDimensions() const {

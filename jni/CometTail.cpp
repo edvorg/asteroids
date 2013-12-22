@@ -18,8 +18,12 @@ namespace test {
         float rad = Rand<float>(0.0, ownerSize, 0.01);
 		star.x = ownerX + cos(angle) * rad;
 		star.y = ownerY + sin(angle) * rad;
-		star.velX = - ownerVelX * 2;
-		star.velY = - ownerVelY * 2;
+		star.velX = - ownerVelX;
+		star.velY = - ownerVelY;
+	  });
+
+	PushLife([] {
+		return 0.5f;
 	  });
   }
 

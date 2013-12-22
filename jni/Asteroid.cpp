@@ -19,8 +19,7 @@ namespace test {
 	tail.SetOwnerVelX(velX);
 	tail.SetOwnerVelY(velY);
 	tail.SetOwnerSize(size);
-	tail.FieldSize(10 * size, 10 * size);
-	tail.FieldPos(x - 5 * size, y - 5 * size);
+	lifeTimer += dt;
   }
 
   void Asteroid::Draw() {
@@ -40,6 +39,9 @@ namespace test {
 	velX = Rand<double>(0.1, 1.0, 0.1);
 	velY = Rand<double>(-10, -30, -1);
 	velAngle = Rand<double>(-90.0, 90.0, 1.0);
+	lifeTimer = 0.0f;
+	tail.FieldSize(params.fieldWidth, params.fieldHeight);
+	tail.FieldPos(0, 0);
   }
 
   Dimensions Asteroid::GetDimensions() const {
@@ -55,6 +57,7 @@ namespace test {
 	velY = another.velY;
 	velAngle = another.velAngle;
 	dead = another.dead;
+	lifeTimer = another.lifeTimer;
 	return *this;
   }
 

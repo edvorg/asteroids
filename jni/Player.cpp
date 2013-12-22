@@ -65,8 +65,6 @@ namespace test {
 	tail.SetOwnerSize(size * 0.5);
 	tail.SetOwnerVelX(dirx);
 	tail.SetOwnerVelY(diry);
-	tail.FieldSize(size * 4, size * 4);
-	tail.FieldPos(x - size * 2 - dirx, y - size * 2 - diry);
   }
 
   void Player::Draw() {
@@ -118,6 +116,11 @@ namespace test {
 
   Dimensions Player::GetDimensions() const {
 	return Dimensions(x, y, size * 0.5);
+  }
+
+  void Player::FieldSize(float w, float h) {
+	bullets.FieldSize(w, h);
+	tail.FieldSize(w, h);
   }
 
 }

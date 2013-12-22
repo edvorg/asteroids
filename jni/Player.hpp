@@ -45,7 +45,7 @@ namespace test {
 	inline float GetSize() const { return size; }
 	inline int GetLives() const { return lives; }
 	inline int IsActive() const { return active; }
-	inline void FieldSize(float w, float h) { bullets.FieldSize(w, h); }
+	void FieldSize(float w, float h);
 
   protected:
   private:

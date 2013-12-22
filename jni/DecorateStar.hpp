@@ -16,6 +16,7 @@ namespace test {
 	float velY = 0;
 	float size = 1.0f;
 	bool dead = false;
+	float lifeTimer = 0.0f;
 
 	void Init();
 	void Update(double dt);

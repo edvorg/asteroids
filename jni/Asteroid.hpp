@@ -19,6 +19,7 @@ namespace test {
 	float velAngle = 0;
 	bool dead = false;
 	CometTail tail;
+	float lifeTimer = 0.0f;
 
 	void Init();
 	void Update(double dt);

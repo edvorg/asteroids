@@ -13,6 +13,7 @@ namespace test {
   void DecorateStar::Update(double dt) {
 	x += velX * dt;
 	y += velY * dt;
+	lifeTimer += dt;
   }
 
   void DecorateStar::Draw() {
@@ -29,6 +30,7 @@ namespace test {
 	y = params.fieldHeight + size;
 	velX = Rand<double>(0.1, 1.0, 0.1);
 	velY = Rand<double>(-10, -40, -1) * size;
+	lifeTimer = 0.0f;
   }
 
   Dimensions DecorateStar::GetDimensions() const {
