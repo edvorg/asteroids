@@ -67,6 +67,12 @@ namespace test {
 	  for (int i = 0; i < maxPlayersCount; i++) {
 		players[i].Draw();
 	  }
+	  DrawNumber(false,
+				 fieldWidth - 5.0f,
+				 fieldHeight - 10.0f,
+				 1,
+				 1.5,
+				 progress.GetLevel());
 	}
 
 	SetTranslate(0, 0);
