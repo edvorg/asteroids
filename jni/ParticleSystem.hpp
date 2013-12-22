@@ -146,6 +146,7 @@ namespace test {
   template<class PARTICLE>
   template <class ANOTHER>
   void ParticleSystem<PARTICLE>::Collide(ANOTHER & another, std::function<void (PARTICLE &, ANOTHER &)> callback) {
+	// TODO optimize this. complexity n now, use aabb or something else
 	for (unsigned int i = 0; i < used; ++i) {
 	  if (another.GetDimensions().Intersect(pool[i].GetDimensions())) {
 		callback(pool[i], another);
