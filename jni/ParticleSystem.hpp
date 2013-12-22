@@ -26,6 +26,7 @@ namespace test {
 	virtual void Update(double dt);
 	virtual void Draw();
 	virtual void Release();
+	virtual void Clean();
 
 	void Collide(const Dimensions & dimensions, std::function<void ()> callback);
 	template<class ANOTHER>
@@ -107,6 +108,14 @@ namespace test {
 
   template<class PARTICLE>
   void ParticleSystem<PARTICLE>::Release() {
+  }
+
+  template<class PARTICLE>
+  void ParticleSystem<PARTICLE>::Clean() {
+	for (unsigned int i = 0; i < used; ++i) {
+	  pool[i].use = false;
+	}
+	used = 0;
   }
 
   template<class PARTICLE>

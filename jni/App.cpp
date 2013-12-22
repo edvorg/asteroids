@@ -9,81 +9,58 @@
 namespace test {
 
   void App::Init() {
-	player1.Init();
-	player2.Init();
 	asteroids.Init();
 	spliceAsteroids.Init();
-	bullets1.Init();
-	bullets2.Init();
 	progress.Init();
 	stars.Init();
+
+	for (int i = 0; i < maxPlayersCount; i++) {
+	  players[i].Init();
+	  bullets[i].Init();
+	}
   }
 
   void App::Update(double dt) {
-	player1.Update(dt);
-	player2.Update(dt);
-	asteroids.Update(dt);
-	spliceAsteroids.Update(dt);
-	bullets1.Update(dt);
-	bullets2.Update(dt);
 	progress.Update(dt);
-	stars.Update(dt);
 
-	bullets1.SetPos(player1.GetX(), player1.GetY());
-	bullets1.SetAngle(player1.GetAngle());
-	bullets1.SetSpawning(player1.IsSpawned());
-	bullets2.SetPos(player2.GetX(), player2.GetY());
-	bullets2.SetAngle(player2.GetAngle());
-	bullets2.SetSpawning(player2.IsSpawned());
+	if (!progress.IsPaused()) {
+	  asteroids.Update(dt);
+	  spliceAsteroids.Update(dt);
+	  stars.Update(dt);
 
-	auto callback1 = [this] () {
-	  lives = std::max<int>(lives - 1, 0);
-	  player1RespawnTimer = 0.0f;
+	  int livesTotal = 0;
+	  int activeTotal = 0;
 
-	  if (!player2.IsSpawned() && lives < 1) {
-		progress.RestartGame();
-		lives = 3;
+	  for (int i = 0; i < maxPlayersCount; i++) {
+		players[i].Update(dt);
+		bullets[i].Update(dt);
+		bullets[i].SetPos(players[i].GetX(), players[i].GetY());
+		bullets[i].SetAngle(players[i].GetAngle());
+		bullets[i].SetSpawning(players[i].IsSpawned());
+
+		asteroids.Collide(bullets[i]);
+		spliceAsteroids.Collide(bullets[i]);
+
+		players[i].Collide(asteroids, [&] { players[i].Kill(); });
+		players[i].Collide(spliceAsteroids, [&] { players[i].Kill(); });
+
+		if (players[i].IsActive()) {
+		  activeTotal++;
+		  livesTotal += players[i].GetLives();
+		}
 	  }
-	};
 
-	auto callback2 = [this] () {
-	  lives = std::max<int>(lives - 1, 0);
-	  player2RespawnTimer = 0.0f;
-
-	  if (!player1.IsSpawned() && lives < 1) {
+	  if (livesTotal < 1 && activeTotal) {
+		for (int i = 0; i < maxPlayersCount; i++) {
+		  players[i].Reset();
+		  bullets[i].Clean();
+		}
 		progress.RestartGame();
-		lives = 3;
+		asteroids.Clean();
+		spliceAsteroids.Clean();
+		stars.Clean();
 	  }
-	};
-
-	if (player1.IsSpawned()) {
-	  asteroids.Collide(player1.GetDimensions(), [&] () {
-		  player1.Kill(callback1);
-		});
-	  spliceAsteroids.Collide(player1.GetDimensions(), [&] () {
-		  player1.Kill(callback1);
-		});
 	}
-	else {
-	  player1RespawnTimer += dt;
-	}
-
-	if (player2.IsSpawned()) {
-	  asteroids.Collide(player2.GetDimensions(), [&] () {
-		  player2.Kill(callback2);
-		});
-	  spliceAsteroids.Collide(player2.GetDimensions(), [&] () {
-		  player2.Kill(callback2);
-		});
-	}
-	else {
-	  player2RespawnTimer += dt;
-	}
-
-	asteroids.Collide(bullets1);
-	asteroids.Collide(bullets2);
-	spliceAsteroids.Collide(bullets1);
-	spliceAsteroids.Collide(bullets2);
   }
 
   void App::Draw() {
@@ -92,58 +69,42 @@ namespace test {
 	glLoadIdentity();
 	glOrthof(0, fieldWidth, 0, fieldHeight, 1, -1);
 
-	player1.Draw();
-	player2.Draw();
-	asteroids.Draw();
-	spliceAsteroids.Draw();
-	bullets1.Draw();
-	bullets2.Draw();
+	if (!progress.IsPaused()) {
+	  asteroids.Draw();
+	  spliceAsteroids.Draw();
+	  stars.Draw();
+	  for (int i = 0; i < maxPlayersCount; i++) {
+		players[i].Draw();
+		bullets[i].Draw();
+	  }
+	}
+
 	progress.Draw();
-	stars.Draw();
   }
 
   void App::Release() {
-	player1.Release();
-	player2.Release();
 	asteroids.Release();
 	spliceAsteroids.Release();
-	bullets1.Release();
-	bullets2.Release();
 	progress.Release();
 	stars.Release();
+	for (int i = 0; i < maxPlayersCount; i++) {
+	  players[i].Release();
+	  bullets[i].Release();
+	}
   }
 
   void App::Touch(int player, float newX, float newY) {
 	auto x = newX / screenWidth * fieldWidth;
 	auto y = (1.0 - newY / screenHeight) * fieldHeight;
 
-	if (player == 0) {
-	  if (player1.IsSpawned()) {
-		player1.Touch(x, y);
-	  }
-	  else if (player1RespawnTimer > playerRespawnPeriod && lives > 0) {
-		player1.Touch(x, y);
-		player1RespawnTimer = 0.0f;
-	  }
-	}
-	else if (player == 1) {
-	  if (player2.IsSpawned()) {
-		player2.Touch(x, y);
-	  }
-	  else if (player2RespawnTimer > playerRespawnPeriod && lives > 0) {
-		player2.Touch(x, y);
-		player2RespawnTimer = 0.0f;
-	  }
+	progress.Touch(newX, newY);
+
+	if (!progress.IsPaused() && players[player].GetLives() > 0) {
+	  players[player].Touch(x, y);
 	}
   }
 
   void App::TouchEnd(int player, float newX, float newY) {
-	if (player == 0) {
-	  // player1.Kill([] {});
-	}
-	else if (player == 1) {
-	  // player2.Kill([] {});
-	}
   }
 
   void App::ScreenSize(float newWidth, float newHeight) {
@@ -152,29 +113,11 @@ namespace test {
 	fieldHeight = fieldWidth * screenHeight / screenWidth;
 	asteroids.FieldSize(fieldWidth, fieldHeight);
 	spliceAsteroids.FieldSize(fieldWidth, fieldHeight);
-	bullets1.FieldSize(fieldWidth, fieldHeight);
-	bullets2.FieldSize(fieldWidth, fieldHeight);
 	progress.FieldSize(fieldWidth, fieldHeight);
 	stars.FieldSize(fieldWidth, fieldHeight);
-  }
-
-  int App::NearestPlayer(float coordX, float coordY) {
-	int result = 0;
-
-	if (player1.IsSpawned() && player2.IsSpawned()) {
-
-	  float deltax1 = coordX - player1.GetX();
-	  float deltay1 = coordY - player1.GetY();
-	  float deltax2 = coordX - player2.GetX();
-	  float deltay2 = coordY - player2.GetY();
-
-	  if ((deltax1 * deltax1 + deltay1 * deltay1) >
-		  (deltax2 * deltax2 + deltay2 * deltay2)) {
-		result = 1;
-	  }
+	for (int i = 0; i < maxPlayersCount; i++) {
+	  bullets[i].FieldSize(fieldWidth, fieldHeight);
 	}
-
-	return result;
   }
 
 }

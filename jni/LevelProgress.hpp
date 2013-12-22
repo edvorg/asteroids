@@ -15,16 +15,24 @@ namespace test {
 	void FieldSize(float width, float height);
 	void RestartLevel();
 	void RestartGame();
+	void Touch(float x, float y);
+
+	inline bool IsPaused() const { return paused; }
 
   protected:
   private:
 	const float levelTimeExtendKoeff = 1.5f;
 	const float levelTimeInitial = 20.0f;
+	const float lineWidth = 16.0f;
+	const float playLineWidth = 8.0f;
+	const float playButtonSize = 0.1f;
+	const float startTimerPeriod = 1.0f;
 	float levelTime = levelTimeInitial;
 	float levelTimer = 0.0f;
 	RandomizeParams params;
 	int currentLevel = 1;
-	const float lineWidth = 16.0f;
+	bool paused = true;
+	float startTimer = startTimerPeriod + 1.0;
   };
 
 }

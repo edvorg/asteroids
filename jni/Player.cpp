@@ -16,6 +16,12 @@ namespace test {
   }
 
   void Player::Update(double dt) {
+
+	if (!IsSpawned()) {
+	  respawnTimer += dt;
+	  return;
+	}
+
 	float deltaX = targetX - x;
 	float deltaY = targetY - y;
 	float distance = sqrt(deltaX * deltaX + deltaY * deltaY);
@@ -77,14 +83,15 @@ namespace test {
   void Player::Release() {
   }
 
-  void Player::Kill(std::function<void ()> callback) {
+  void Player::Kill() {
 	spawned = false;
-	callback();
+	lives = std::max<int>(lives - 1, 0);
+	respawnTimer = 0.0f;
   }
 
   void Player::Touch(float newX, float newY) {
 
-	if (!spawned) {
+	if (!spawned && respawnTimer > respawnPeriod) {
 	  spawned = true;
 	  x = newX;
 	  y = newY;
@@ -94,11 +101,19 @@ namespace test {
 	  targetX = newX;
 	  targetY = newY;
 	  size = 7.0f;
+	  respawnTimer = 0.0f;
+	  active = true;
 	}
 	else {
 	  targetX = newX;
 	  targetY = newY;
 	}
+  }
+
+  void Player::Reset() {
+	lives = livesInitial;
+	active = false;
+	respawnTimer = respawnPeriod + 1.0f;
   }
 
   Dimensions Player::GetDimensions() const {

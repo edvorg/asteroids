@@ -4,6 +4,7 @@
 #include <functional>
 
 #include "Dimensions.hpp"
+#include "ParticleSystem.hpp"
 
 namespace test {
 
@@ -15,19 +16,29 @@ namespace test {
 	void Release();
 
 	// try to kill player
-	void Kill(std::function<void ()> callback);
+	void Kill();
 
 	// process touch
 	void Touch(float newX, float newY);
+
+	// collisions with particle systems
+	template<class PARTICLE>
+	void Collide(ParticleSystem<PARTICLE> & system, std::function<void ()> callback);
+
+	void Reset();
 
 	Dimensions GetDimensions() const;
 	inline bool IsSpawned() const { return spawned; }
 	inline float GetX() const { return x; }
 	inline float GetY() const { return y; }
 	inline float GetAngle() const { return angle; }
+	inline int GetLives() const { return lives; }
+	inline int IsActive() const { return active; }
 
   protected:
   private:
+	const float respawnPeriod = 3.0f;
+	const int livesInitial = 3;
 	bool spawned = false;
 	float x = 0.0f;
 	float y = 0.0f;
@@ -39,7 +50,17 @@ namespace test {
 	float size = 7.0f;
 	float acceleration = 0.005;
 	float deceleration = 3;
+	float respawnTimer = respawnPeriod + 1.0f;
+	int lives = livesInitial;
+	bool active = false;
   };
+
+  template<class PARTICLE>
+  void Player::Collide(ParticleSystem<PARTICLE> & system, std::function<void ()> callback) {
+	if (IsSpawned()) {
+	  system.Collide(GetDimensions(), callback);
+	}
+  }
 
 }
 

@@ -28,22 +28,20 @@ namespace test {
 
   protected:
   private:
+	const float fieldWidth = 100.0;
+	static const int maxPlayersCount = 2;
+	float fieldHeight = 100.0f;
 	float screenWidth = 0.0f;
 	float screenHeight = 0.0f;
-	const float fieldWidth = 100.0;
-	float fieldHeight = 100.0f;
+
 	Asteroids asteroids;
 	SpliceAsteroids spliceAsteroids;
-	Player player1;
-	Player player2;
-	Bullets bullets1;
-	Bullets bullets2;
-	int lives = 3;
-	const float playerRespawnPeriod = 3.0f;
-	float player1RespawnTimer = playerRespawnPeriod;
-	float player2RespawnTimer = playerRespawnPeriod;
-	LevelProgress progress;
  	DecorateStars stars;
+
+	Player players[maxPlayersCount];
+	Bullets bullets[maxPlayersCount];
+
+	LevelProgress progress;
   };
 
 }

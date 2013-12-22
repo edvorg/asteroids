@@ -23,7 +23,7 @@ namespace test {
 	PushPostSpawn([&] (Asteroid & created) {
 		created.x -= GetFieldWidth();
 		created.velX = 55;
-		created.velY = -45;
+		created.velY = -35;
 
 		if (leftToRight) {
 		  created.x += GetFieldWidth() * 2.0f;

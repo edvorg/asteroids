@@ -11,8 +11,8 @@ namespace test {
   void Asteroids::Init() {
 	ParticleSystem<Asteroid>::Init();
 
-	PushPeriod([] {
-		return Rand(0.25, 1.0, 0.01);
+	PushPeriod([this] {
+		return Rand(1.0, 4.0, 0.01) * periodKoeff;
 	  });
 
 	PushPreDestroy([&] (Asteroid & destroyed) {
