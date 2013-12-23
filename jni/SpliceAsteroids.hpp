@@ -5,12 +5,15 @@
 
 namespace test {
 
+  // represents secondary asteroids system, which time to time
+  // thorows asteroids with big speed from right or left side chosen randomly
   class SpliceAsteroids : public Asteroids {
 
   public:
 	virtual void Init() override;
 	virtual void Update(double dt) override;
 
+	// set game level, and ajust randomization parameters
 	void SetLevel(unsigned int level);
 
   protected:

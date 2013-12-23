@@ -6,21 +6,23 @@
 
 namespace test {
 
+  // represents bullets field throwed by player
   class Bullets : public ParticleSystem<Bullet> {
 
   public:
 	virtual void Init() override;
 
-	// Emitter position
 	void SetPos(float newX, float newY);
-	// Emitter direction
 	void SetAngle(float newAngle);
 
   protected:
   private:
 	float period = 0.25f;
+	// owner position x
 	float x = 0.0f;
+	// owner position y
 	float y = 0.0f;
+	// owner orientation
 	float angle = 0.0f;
   };
 

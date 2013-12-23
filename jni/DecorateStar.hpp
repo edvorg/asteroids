@@ -7,6 +7,7 @@ namespace test {
 
   class RandomizeParams;
 
+  // DecorateStars particle system product
   class DecorateStar {
 
   public:

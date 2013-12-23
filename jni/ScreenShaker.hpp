@@ -3,6 +3,7 @@
 
 namespace test {
 
+  // screen shake effect used in by e.g. explosions
   class ScreenShaker {
   public:
 	// starts screen shake effect

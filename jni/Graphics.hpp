@@ -9,7 +9,9 @@ namespace test {
   class Bullet;
   class LevelProgress;
 
+  // apply translation matrix
   void SetTranslate(float x, float y);
+  // set ortho projection
   void SetProjection(float fieldWidth, float fieldHeight);
   void DrawNumber(bool fromLeft, float x, float y, float sizex, float sizey, unsigned int number);
   void DrawDigit(float x, float y, float sizex, float sizey, unsigned int digit);

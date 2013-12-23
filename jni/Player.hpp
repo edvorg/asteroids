@@ -10,6 +10,7 @@
 
 namespace test {
 
+  // represents game player
   class Player {
   public:
 	template<class PARTICLE>
@@ -35,15 +36,18 @@ namespace test {
 	template<class PARTICLE>
 	void CollideBullets(ParticleSystem<PARTICLE> & system, CollideBulletsCallback<PARTICLE> callback);
 
+	// reset player to initial state
 	void Reset();
 
 	Dimensions GetDimensions() const;
+	// is player on field?
 	inline bool IsSpawned() const { return spawned; }
 	inline float GetX() const { return x; }
 	inline float GetY() const { return y; }
 	inline float GetAngle() const { return angle; }
 	inline float GetSize() const { return size; }
 	inline int GetLives() const { return lives; }
+	// is player enrolled in game
 	inline int IsActive() const { return active; }
 	void FieldSize(float w, float h);
 	void RespawnTimeCorner(float x, float y, bool fromLeft);
@@ -51,26 +55,36 @@ namespace test {
 
   protected:
   private:
+	// player respawn delay
 	const float respawnPeriod = 3.0f;
 	const int livesInitial = 3;
 	float fieldWidth = 100.0f;
 	float fieldHeight = 100.0f;
+	// is player on field?
 	bool spawned = false;
 	float x = 0.0f;
 	float y = 0.0f;
 	float angle = 0.0f;
 	float velX = 0.0f;
 	float velY = 0.0f;
+	// target x to move to
 	float targetX = 0.0f;
+	// target y to move to
 	float targetY = 0.0f;
 	float size = 7.0f;
 	float acceleration = 0.005;
 	float deceleration = 3;
 	float respawnTimer = respawnPeriod + 1.0f;
 	int lives = livesInitial;
+	// is player enrolled in game
 	bool active = false;
+	// particles thrown by ship engine
 	CometTail tail;
+	// bullets thrown by ship cannon
 	Bullets bullets;
+
+	// hud
+
 	float respawnTimerX = 0.0f;
 	float respawnTimerY = 0.0f;
 	float respawnTimerFromLeft = true;

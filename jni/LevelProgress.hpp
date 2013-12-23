@@ -25,17 +25,25 @@ namespace test {
 
 	const float levelTimeExtendKoeff = 1.5f;
 	const float levelTimeInitial = 20.0f;
+	// progress bar line width
 	const float lineWidth = 16.0f;
+	// play picture line width
 	const float playLineWidth = 8.0f;
 	const float playButtonSize = 0.1f;
+	// delay after which play button becomes enabled
 	const float startTimerPeriod = 1.0f;
 
   protected:
   private:
+	// current level length
 	float levelTime = levelTimeInitial;
+	// current level playing time
 	float levelTimer = 0.0f;
+	// some general params
 	RandomizeParams params;
+	// current game level
 	unsigned int level = 0;
+	// is game on pause?
 	bool paused = true;
 	float startTimer = startTimerPeriod + 1.0;
   };

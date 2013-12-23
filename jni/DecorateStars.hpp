@@ -6,6 +6,7 @@
 
 namespace test {
 
+  // represents stars cloud particle system
   class DecorateStars : public ParticleSystem<DecorateStar> {
 
   public:

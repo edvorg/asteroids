@@ -7,6 +7,7 @@
 
 namespace test {
 
+  // Asteroids particle system product
   class Asteroid {
 
   public:

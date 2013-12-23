@@ -20,16 +20,22 @@ namespace test {
 	virtual void Init() override;
 	virtual void Update(double dt) override;
 
+	// set current progress level and adjust rand params
 	void SetLevel(unsigned int level);
 
   protected:
   private:
 	const float periodMinInitial = 1.0f;
 	const float periodMaxInitial = 2.0f;
+
 	// minimum size of asteroid to crush in small parts
 	float minCrushSize = 5.0f;
+
+	//asteroids can crush in smaller parts
 	int crushPartsCount = 3;
 	int crushPartsAwayVel = 10.0f;
+
+	// random asteroids gen periods
 	float periodMin = periodMinInitial;
 	float periodMax = periodMaxInitial;
   };

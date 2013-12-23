@@ -6,6 +6,7 @@
 
 namespace test {
 
+  // Bullets particle system product
   class Bullet {
 
   public:
