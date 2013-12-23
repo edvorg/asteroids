@@ -133,24 +133,28 @@ namespace test {
 
 	// update active pool
 	for (unsigned int i = 0; i < used; ++i) {
+	  pool[i].SetPos(pool[i].GetPosX() + pool[i].GetVelX() * dt,
+					 pool[i].GetPosY() + pool[i].GetVelY() * dt);
+	  pool[i].SetAngle(pool[i].GetAngle() + pool[i].GetVelAngle() * dt);
+	  pool[i].SetLifeTimer(pool[i].GetLifeTimer() + dt);
 	  pool[i].Update(dt);
 
 	  // destroy particles which will be never seen or set dead
 	  // for extending field use of margins is recommended
-	  if (pool[i].dead ||
-		  (lifes.size() && pool[i].lifeTimer > lifes.top()()) ||
+	  if (pool[i].GetDead() ||
+		  (lifes.size() && pool[i].GetLifeTimer() > lifes.top()()) ||
 
-		  (pool[i].y < y && pool[i].velY < 0.0f) ||
-		  (pool[i].y > y + params.fieldHeight && pool[i].velY > 0.0f) ||
-		  (pool[i].x < x && pool[i].velX < 0.0f) ||
-		  (pool[i].x > x + params.fieldWidth && pool[i].velX > 0.0f) ||
+		  (pool[i].GetPosY() < y && pool[i].GetVelY() < 0.0f) ||
+		  (pool[i].GetPosY() > y + params.fieldHeight && pool[i].GetVelY() > 0.0f) ||
+		  (pool[i].GetPosX() < x && pool[i].GetVelX() < 0.0f) ||
+		  (pool[i].GetPosX() > x + params.fieldWidth && pool[i].GetVelX() > 0.0f) ||
 
-	  	  pool[i].y < y - marginBottom ||
-	  	  pool[i].y > y + params.fieldHeight + marginTop ||
-	  	  pool[i].x < x - marginLeft ||
-	  	  pool[i].x > x + params.fieldWidth + marginRight) {
+	  	  pool[i].GetPosY() < y - marginBottom ||
+	  	  pool[i].GetPosY() > y + params.fieldHeight + marginTop ||
+	  	  pool[i].GetPosX() < x - marginLeft ||
+	  	  pool[i].GetPosX() > x + params.fieldWidth + marginRight) {
 
-	  	pool[i].dead = false;
+	  	pool[i].SetDead(false);
 	  	Destroy(i);
 	  }
 	}
@@ -295,6 +299,7 @@ namespace test {
 	if (used < poolSize) {
 	  auto index = used;
 	  used++;
+	  pool[index].SetLifeTimer(0.0f);
 	  if (postSpawns.size()) {
 		postSpawns.top()(pool[index]);
 	  }

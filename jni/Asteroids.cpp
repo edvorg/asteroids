@@ -14,21 +14,21 @@ namespace test {
 	  });
 
 	PushPostSpawn([this] (Asteroid & a) {
-		a.size = Rand<double>(1, 10, 1);
-		a.x = Rand<double>(0, GetFieldWidth(), 1);
-		a.y = Rand<float>(GetFieldHeight() + a.size,
-						  GetFieldHeight() * 1.5, 0.1);
-		a.angle = 0;
-		a.velX = Rand<double>(0.1, 1.0, 0.1);
-		a.velY = Rand<double>(-10, -30, -1);
-		a.velAngle = Rand<double>(-90.0, 90.0, 1.0);
-		a.lifeTimer = 0.0f;
+		a.SetSize(Rand<double>(1, 10, 1));
+		a.SetPos(Rand<double>(0, GetFieldWidth(), 1),
+				 Rand<float>(GetFieldHeight() + a.GetSize(),
+							 GetFieldHeight() * 1.5, 0.1));
+		a.SetAngle(0);
+		a.SetVel(Rand<double>(0.1, 1.0, 0.1),
+				 Rand<double>(-10, -30, -1));
+		a.SetVelAngle(Rand<double>(-90.0, 90.0, 1.0));
+
 		a.tail.FieldSize(GetFieldWidth(), GetFieldHeight());
 		a.tail.FieldPos(0, 0);
 	  });
 
 	PushPreDestroy([this] (Asteroid & destroyed) {
-		if (destroyed.size > minCrushSize) {
+		if (destroyed.GetSize() > minCrushSize) {
 		  // crush asteroid in smaller parts
 
 		  float awayAngle = rand() % 180 / 179.0f * M_PI * 2.0f;
@@ -38,15 +38,15 @@ namespace test {
 				float dirx = cosf(awayAngle);
 				float diry = sinf(awayAngle);
 
-				created.size = destroyed.size / 3.0;
-				created.x = destroyed.x + dirx * created.size;
-				created.y = destroyed.y + diry * created.size;
+				created.SetSize(destroyed.GetSize() / 3.0);
+				created.SetPos(destroyed.GetPosX() + dirx * created.GetSize(),
+							   destroyed.GetPosY() + diry * created.GetSize());
 
 				dirx *= crushPartsAwayVel;
 				diry *= crushPartsAwayVel;
 
-				created.velX = destroyed.velX + dirx;
-				created.velY = destroyed.velY + diry;
+				created.SetVel(destroyed.GetVelX() + dirx,
+							   destroyed.GetVelY() + diry);
 
 				awayAngle += M_PI * 2.0f / 3.0f;
 			  });

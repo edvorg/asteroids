@@ -10,16 +10,12 @@ namespace test {
   }
 
   void Asteroid::Update(double dt) {
-	x += velX * dt;
-	y += velY * dt;
-	angle += velAngle * dt;
 	tail.Update(dt);
-	tail.SetOwnerX(x);
-	tail.SetOwnerY(y);
-	tail.SetOwnerVelX(velX);
-	tail.SetOwnerVelY(velY);
-	tail.SetOwnerSize(size);
-	lifeTimer += dt;
+	tail.SetOwnerX(GetPosX());
+	tail.SetOwnerY(GetPosY());
+	tail.SetOwnerVelX(GetVelX());
+	tail.SetOwnerVelY(GetVelY());
+	tail.SetOwnerSize(GetSize());
   }
 
   void Asteroid::Draw() {
@@ -32,19 +28,11 @@ namespace test {
   }
 
   Dimensions Asteroid::GetDimensions() const {
-	return Dimensions(x, y, size);
+	return Dimensions(GetPosX(), GetPosY(), GetSize());
   }
 
-  Asteroid & Asteroid::operator =(const Asteroid & another) {
-	x = another.x;
-	y = another.y;
-	angle = another.angle;
-	size = another.size;
-	velX = another.velX;
-	velY = another.velY;
-	velAngle = another.velAngle;
-	dead = another.dead;
-	lifeTimer = another.lifeTimer;
+  Asteroid & Asteroid::operator = (const Asteroid & another) {
+	Particle::operator=(another);
 	return *this;
   }
 

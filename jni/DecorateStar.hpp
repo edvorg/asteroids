@@ -2,21 +2,14 @@
 #define DECORATESTAR_HPP
 
 #include "Dimensions.hpp"
+#include "Particle.hpp"
 
 namespace test {
 
   // DecorateStars particle system product
-  class DecorateStar {
+  class DecorateStar : public Particle {
 
   public:
-	float x = 0;
-	float y = 0;
-	float velX = 0;
-	float velY = 0;
-	float size = 1.0f;
-	bool dead = false;
-	float lifeTimer = 0.0f;
-
 	void Init();
 	void Update(double dt);
 	void Draw();

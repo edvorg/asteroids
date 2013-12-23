@@ -290,9 +290,9 @@ namespace test {
 	// render
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
-	glTranslatef(asteroid.x, asteroid.y, 0);
-	glRotatef(asteroid.angle, 0, 0, 1);
-	glScalef(asteroid.size, asteroid.size, 1);
+	glTranslatef(asteroid.GetPosX(), asteroid.GetPosY(), 0);
+	glRotatef(asteroid.GetAngle(), 0, 0, 1);
+	glScalef(asteroid.GetSize(), asteroid.GetSize(), 1);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(2, GL_FLOAT, 0, vertices);
 	glDrawElements(GL_LINE_LOOP, corners, GL_UNSIGNED_BYTE, indices);
@@ -322,14 +322,14 @@ namespace test {
 	glGetFloatv(GL_CURRENT_COLOR, currentColor);
 	glGetFloatv(GL_POINT_SIZE, &oldSize);
 
-	glPointSize(star.size);
-    glColor4f(0xbe / 255.0f, 0xb4 / 255.0f, 0xfa / 255.0f, std::abs(star.velY) / 20.0f * 4.0);
+	glPointSize(star.GetSize());
+    glColor4f(0xbe / 255.0f, 0xb4 / 255.0f, 0xfa / 255.0f, std::abs(star.GetVelY()) / 20.0f * 4.0);
 
 	// render
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
-	glTranslatef(star.x, star.y, 0);
-	glScalef(star.size, star.size, 1);
+	glTranslatef(star.GetPosX(), star.GetPosY(), 0);
+	glScalef(star.GetSize(), star.GetSize(), 1);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(2, GL_FLOAT, 0, vertices);
 	glDrawElements(GL_POINTS, corners, GL_UNSIGNED_BYTE, indices);
@@ -365,9 +365,9 @@ namespace test {
 	// render
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
-	glTranslatef(bullet.x, bullet.y, 0);
-	glRotatef(bullet.angle, 0, 0, 1);
-	glScalef(bullet.size, bullet.size, 1);
+	glTranslatef(bullet.GetPosX(), bullet.GetPosY(), 0);
+	glRotatef(bullet.GetAngle(), 0, 0, 1);
+	glScalef(bullet.GetSize(), bullet.GetSize(), 1);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(2, GL_FLOAT, 0, vertices);
 	glDrawElements(GL_LINE_LOOP, corners, GL_UNSIGNED_BYTE, indices);

@@ -8,14 +8,9 @@
 namespace test  {
 
   void Bullet::Init() {
-
   }
 
   void Bullet::Update(double dt) {
-	x += velX * dt;
-	y += velY * dt;
-	angle += velAngle * dt;
-	lifeTimer += dt;
   }
 
   void Bullet::Draw() {
@@ -23,11 +18,10 @@ namespace test  {
   }
 
   void Bullet::Release() {
-
   }
 
   Dimensions Bullet::GetDimensions() const {
-	return Dimensions(x, y, size);
+	return Dimensions(GetPosX(), GetPosY(), GetSize());
   }
 
 }
