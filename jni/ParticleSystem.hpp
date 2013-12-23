@@ -312,6 +312,7 @@ namespace test {
 	  if (preDestroys.size()) {
 		preDestroys.top()(pool[index]);
 	  }
+	  pool[index].SetLifeTimer(0.0f);
 	  used--;
 	  if (index < used) {
 		pool[index] = pool[used];

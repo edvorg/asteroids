@@ -37,7 +37,7 @@ namespace test {
 
 	inline void SetSize(float newSize) { size = newSize; }
 	inline void SetDead(bool newDead) { dead = newDead; }
-	inline void SetLifeTimer(bool newLifeTimer) { lifeTimer = newLifeTimer; }
+	inline void SetLifeTimer(float newLifeTimer) { lifeTimer = newLifeTimer; }
 
 	inline float GetPosX() const { return x; }
     inline float GetPosY() const { return y; }
@@ -50,7 +50,7 @@ namespace test {
 
 	inline float GetSize() const { return size; }
 	inline bool GetDead() const { return dead; }
-	inline bool GetLifeTimer() const { return lifeTimer; }
+	inline float GetLifeTimer() const { return lifeTimer; }
 
   protected:
   private:
