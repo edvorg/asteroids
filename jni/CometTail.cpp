@@ -14,6 +14,7 @@ namespace test {
 	  });
 
 	PushPostSpawn([&] (DecorateStar & star) {
+		// throw particles from back of owner orientation
         float angle = Rand<float>(0.0, M_PI * 2.0, 0.01);
         float rad = Rand<float>(0.0, ownerSize, 0.01);
 		star.x = ownerX + cos(angle) * rad;

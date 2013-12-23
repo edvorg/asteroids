@@ -27,6 +27,9 @@ namespace test {
 	  return;
 	}
 
+	/////////////////////////////////////////////////////////////////////
+	// player manipulation code /////////////////////////////////////////
+
 	float deltaX = targetX - x;
 	float deltaY = targetY - y;
 	float distance = sqrt(deltaX * deltaX + deltaY * deltaY);
@@ -54,8 +57,13 @@ namespace test {
 	  angle -= 90.0f;
 	}
 
+	// player manipulation code /////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////
+
 	x += velX;
 	y += velY;
+
+	// trow particles form player's ship engine
 
 	auto dirx = cos((angle + 90.0f) * M_PI / 180.0f) * 10.0f;
 	auto diry = sin((angle + 90.0f) * M_PI / 180.0f) * 10.0f;
@@ -71,6 +79,8 @@ namespace test {
 	DrawPlayer(*this);
 	tail.Draw();
 	bullets.Draw();
+
+	// draw hud
 
 	if (IsActive()) {
 	  if (!IsSpawned() && respawnTimer < respawnPeriod && GetLives() > 0) {
@@ -106,6 +116,8 @@ namespace test {
   void Player::Touch(float newX, float newY) {
 
 	if (!spawned && respawnTimer > respawnPeriod) {
+	  // spawn player
+
 	  spawned = true;
 	  x = newX;
 	  y = newY;

@@ -27,29 +27,42 @@ namespace test {
 	virtual void Update(double dt);
 	virtual void Draw();
 	virtual void Release();
+	// unuse all particles
 	virtual void Clean();
+	// resize system pool
 	virtual void Resize(int newSize);
 
+	// collide with some object
 	template<class ANOTHER>
 	void Collide(ANOTHER & another, std::function<void (PARTICLE &, ANOTHER &)> callback);
+	// collide with another particle system
 	template<class ANOTHER>
 	void Collide(ParticleSystem<ANOTHER> & another, std::function<void (PARTICLE &, ANOTHER &)> callback);
 
-	// some application parameters
 	void FieldSize(float newWidth, float newHeight);
 	void FieldPos(float newX, float newY);
 	inline void MarginLeft(float left) { marginLeft = left; }
 	inline void MarginTop(float top) { marginTop = top; }
 	inline void MarginRight(float right) { marginRight = right; }
 	inline void MarginBottom(float bottom) { marginBottom = bottom; }
+
+	// push function returning spawn period (top will be used)
 	void PushPeriod(Period newPeriod);
 	void PopPeriod();
+
+	// push function returning life length for created particles (top will be used)
 	void PushLife(Life newLife);
 	void PopLife();
+
+	// push callback for particle post spawn event (top will be used)
 	void PushPostSpawn(PostSpawn newPostSpawn);
 	void PopPostSpawn();
+
+	// push callback for particle pre destroy event (top will be used)
 	void PushPreDestroy(PreDestroy newPreDestroy);
 	void PopPreDestroy();
+
+	// spawn particles every period seconds
 	void SetSpawning(bool enable);
 
 	inline float GetFieldWidth() const { return params.fieldWidth; }
@@ -57,6 +70,7 @@ namespace test {
 
   protected:
 	void Spawn();
+	// destroy by index ind pool
 	void Destroy(unsigned int index);
 
   private:
@@ -64,11 +78,17 @@ namespace test {
 	int poolSize = 100;
 	double spawnTimer = 0.0;
 	double spawnPeriod = 1.0;
+	// number of used particles
 	int used = 0;
 	RandomizeParams params;
+	// spawn particles every period seconds
 	bool spawning = true;
+
+	// field left bottom corner
 	float x = 0.0f;
 	float y = 0.0f;
+
+	// margins
 	float marginLeft = 0.0f;
 	float marginRight = 0.0f;
 	float marginTop = 0.0f;
@@ -111,6 +131,8 @@ namespace test {
 	for (unsigned int i = 0; i < used; ++i) {
 	  pool[i].Update(dt);
 
+	  // destroy particles which will be never seen or set dead
+	  // for extending field use of margins is recommended
 	  if (pool[i].dead ||
 		  (lifes.size() && pool[i].lifeTimer > lifes.top()()) ||
 

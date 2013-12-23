@@ -15,6 +15,8 @@ namespace test {
 
 	PushPreDestroy([&] (Asteroid & destroyed) {
 		if (destroyed.size > minCrushSize) {
+		  // crush asteroid in smaller parts
+
 		  float awayAngle = rand() % 180 / 179.0f * M_PI * 2.0f;
 
 		  for (unsigned int i = 0; i < crushPartsCount; ++i) {

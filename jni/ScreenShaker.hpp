@@ -10,6 +10,7 @@ namespace test {
 	void Shake();
 
 	void Update(double dt);
+	// apply transformation matrix of shake effect
 	void ApplyMatrix();
 
   protected:

@@ -36,6 +36,7 @@ namespace test {
 
 	  CollideAsteroids();
 
+	  // process collisions, collect some data
 	  for (int i = 0; i < maxPlayersCount; i++) {
 		players[i].Update(dt);
 		CollidePlayer(players[i]);
@@ -50,6 +51,7 @@ namespace test {
 		}
 	  }
 
+	  // GAME OVER
 	  if (livesTotal < 1 && activeTotal) {
 		for (int i = 0; i < maxPlayersCount; i++) {
 		  players[i].Reset();
@@ -61,6 +63,7 @@ namespace test {
 		scoreTotal = 0.0f;
 	  }
 
+	  // no players spawned, restart level and wait for spawn
 	  if (activeTotal && !spawnedTotal) {
 		progress.RestartLevel();
 	  }
@@ -149,6 +152,8 @@ namespace test {
 	progress.FieldSize(fieldWidth, fieldHeight);
 	for (int i = 0; i < maxPlayersCount; i++) {
 	  players[i].FieldSize(fieldWidth, fieldHeight);
+
+	  // compute hud elements params
 	  auto x = 5 + (fieldWidth - 10.0f) / (maxPlayersCount - 1) * i;
 	  players[i].LiveCorner(x,
 							5,

@@ -12,6 +12,7 @@ namespace test {
 	  });
 
 	PushPostSpawn([this] (Bullet & bullet) {
+		// throw bullets in front of owner orientation
 		bullet.x = x;
 		bullet.y = y;
 		bullet.velX = cos((angle + 90.0f) / 180.0f * M_PI) * 100.0f;

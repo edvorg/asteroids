@@ -17,6 +17,8 @@ namespace test {
 		}
 	  });
 
+	// use some generated data from Super and modify for our task
+
 	PushPostSpawn([&] (Asteroid & created) {
 		created.x = Rand(- GetFieldWidth() * 0.5f,
 						 0.0f,
