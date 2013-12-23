@@ -8,9 +8,10 @@ namespace test {
 
   void CometTail::Init() {
 	Super::Init();
+	Super::Resize(poolSize);
 
 	PushPeriod([] {
-		return 0.001;
+		return 0.05;
 	  });
 
 	PushPostSpawn([this] (DecorateStar & star) {

@@ -23,7 +23,7 @@ namespace test {
 
   protected:
   private:
-	const int poolSize = 100;
+	const int poolSize = 10;
 
 	// pos x of owning object
 	float ownerX = 0.0f;

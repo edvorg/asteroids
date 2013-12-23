@@ -10,6 +10,7 @@ namespace test {
   }
 
   void Asteroid::Update(double dt) {
+	tail.SetSpawning(GetVelX() * GetVelX() + GetVelY() * GetVelY() > 400);
 	tail.Update(dt);
 	tail.SetOwnerX(GetPosX());
 	tail.SetOwnerY(GetPosY());
