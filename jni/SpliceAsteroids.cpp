@@ -28,18 +28,14 @@ namespace test {
 
 		// change some settings
 
-		created.x = Rand(- GetFieldWidth() * 0.5f,
-						 0.0f,
-						 0.1f);
-		created.y = Rand(GetFieldHeight() * 0.5f,
-						 GetFieldHeight() * 1.5f,
-						 0.1f);
-		created.velX = GetFieldWidth() * 0.25;
-		created.velY = - GetFieldHeight() * 0.125;
+		created.SetPos(Rand(- GetFieldWidth() * 0.5f, 0.0f, 0.1f),
+					   Rand(GetFieldHeight() * 0.5f, GetFieldHeight() * 1.5f, 0.1f));
+		created.SetVel(GetFieldWidth() * 0.25,
+					   - GetFieldHeight() * 0.125);
 
 		if (leftToRight) {
-		  created.x += GetFieldWidth() * 2.0f;
-		  created.velX = - created.velX;
+		  created.IncPosX(GetFieldWidth() * 2.0f);
+		  created.DecVelX(- created.GetVelX());
 		}
 	  });
   }

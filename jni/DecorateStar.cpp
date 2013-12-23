@@ -10,9 +10,6 @@ namespace test {
   }
 
   void DecorateStar::Update(double dt) {
-	x += velX * dt;
-	y += velY * dt;
-	lifeTimer += dt;
   }
 
   void DecorateStar::Draw() {
@@ -23,7 +20,7 @@ namespace test {
   }
 
   Dimensions DecorateStar::GetDimensions() const {
-	return Dimensions(x, y, size);
+	return Dimensions(GetPosX(), GetPosY(), GetSize());
   }
 
 }

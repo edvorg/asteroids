@@ -14,13 +14,10 @@ namespace test {
 	PushPostSpawn([this] (Bullet & bullet) {
 		// throw bullets in front of owner orientation
 		// TODO load params from xml/json
-		bullet.angle = 0;
-		bullet.lifeTimer = 0.0f;
-		bullet.x = x;
-		bullet.y = y;
-		bullet.velX = cos((angle + 90.0f) / 180.0f * M_PI) * 100.0f;
-		bullet.velY = sin((angle + 90.0f) / 180.0f * M_PI) * 100.0f;
-		bullet.size = 1.0f;
+		bullet.SetPos(x, y);
+		bullet.SetVel(cos((angle + 90.0f) / 180.0f * M_PI) * 100.0f,
+					  sin((angle + 90.0f) / 180.0f * M_PI) * 100.0f);
+		bullet.SetSize(1.0f);
 	  });
   }
 

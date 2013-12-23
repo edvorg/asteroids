@@ -168,15 +168,13 @@ namespace test {
 	  auto callback = [&] (Asteroid & a, Asteroid & b) {
 		if (&a != &b) {
 		  // TODO improve algo using absolute rigid body law
-		  auto deltax = a.x - b.x;
-		  auto deltay = a.y - b.y;
+		  auto deltax = a.GetPosX() - b.GetPosX();
+		  auto deltay = a.GetPosY() - b.GetPosY();
 		  auto distance = sqrt(deltax * deltax + deltay * deltay);
 		  deltax /= distance;
 		  deltay /= distance;
-		  a.velX += deltax * b.size;
-		  a.velY += deltay * b.size;
-		  b.velX -= deltax * a.size;
-		  b.velY -= deltay * a.size;
+		  a.IncVel(deltax * b.GetSize(), deltay * b.GetSize());
+		  b.DecVel(deltax * a.GetSize(), deltay * a.GetSize());
 		}
 	  };
 
@@ -187,14 +185,14 @@ namespace test {
 
   void App::CollidePlayer(Player & player) {
 	auto callback1 = [&] (Asteroid & a, Bullet & b) {
-	  a.dead = true;
-	  b.dead = true;
-	  scoreTotal += std::abs(a.velX * a.velY);
+	  a.SetDead(true);
+	  b.SetDead(true);
+	  scoreTotal += std::abs(a.GetVelX() * a.GetVelY());
 	};
 	auto callback2 = [&] (Asteroid & a, Player & p) {
 	  p.Kill();
 	  shaker.Shake();
-	  a.dead = true;
+	  a.SetDead(true);
 	};
 
 	player.CollideBullets<Asteroid>(asteroids, callback1);
