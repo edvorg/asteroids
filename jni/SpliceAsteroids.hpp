@@ -26,6 +26,7 @@ namespace test {
 	bool leftToRight = false;
 	float spawnPeriodActiveTimer = 0.0f;
 	float spawnPeriodPassiveTimer = 0.0f;
+	int level = 0;
   };
 
 }

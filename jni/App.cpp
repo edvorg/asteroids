@@ -32,12 +32,17 @@ namespace test {
 
 	  livesTotal = 0;
 	  int activeTotal = 0;
+	  int spawnedTotal = 0;
 
 	  CollideAsteroids();
 
 	  for (int i = 0; i < maxPlayersCount; i++) {
 		players[i].Update(dt);
 		CollidePlayer(players[i]);
+
+		if (players[i].IsSpawned()) {
+		  spawnedTotal++;
+		}
 
 		if (players[i].IsActive()) {
 		  activeTotal++;
@@ -54,6 +59,10 @@ namespace test {
 		spliceAsteroids.Clean();
 		stars.Clean();
 		scoreTotal = 0.0f;
+	  }
+
+	  if (activeTotal && !spawnedTotal) {
+		progress.RestartLevel();
 	  }
 	}
   }

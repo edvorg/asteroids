@@ -54,10 +54,15 @@ namespace test {
 	}
   }
 
-  void SpliceAsteroids::SetLevel(unsigned int level) {
-	auto l = level + 1;
-	spawnPeriodActive = spawnPeriodActiveInitial / l / l;
-	spawnPeriodPassive = spawnPeriodPassiveInitial / l / l;
+  void SpliceAsteroids::SetLevel(unsigned int newLevel) {
+	if (level != newLevel) {
+	  level = newLevel;
+	  auto l = level + 1;
+	  spawnPeriodActive = spawnPeriodActiveInitial / l / l;
+	  spawnPeriodPassive = spawnPeriodPassiveInitial / l / l;
+	  spawnPeriodActiveTimer = 0.0f;
+	  spawnPeriodPassiveTimer = 0.0f;
+	}
   }
 
 }
