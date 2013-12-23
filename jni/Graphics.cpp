@@ -323,8 +323,7 @@ namespace test {
 	glGetFloatv(GL_POINT_SIZE, &oldSize);
 
 	glPointSize(star.GetSize());
-    glColor4f(0xbe / 255.0f, 0xb4 / 255.0f, 0xfa / 255.0f, std::abs(star.GetVelY() * star.GetVelY() +
-																	star.GetVelX() * star.GetVelX()));
+    glColor4f(0xbe / 255.0f, 0xb4 / 255.0f, 0xfa / 255.0f, 1.0f);
 
 	// render
 	glMatrixMode(GL_MODELVIEW);

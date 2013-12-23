@@ -7,7 +7,7 @@ namespace test {
 	Super::Resize(poolSize);
 
 	PushPostSpawn([this] (DecorateStar & star) {
-		star.SetSize(Rand<double>(0.5, 5, 1));
+		star.SetSize(5.0f);
 		star.SetPos(Rand<double>(0, GetFieldWidth(), 1),
 					GetFieldHeight() + star.GetSize());
 		star.SetVel(Rand<double>(0.1, 1.0, 0.1),

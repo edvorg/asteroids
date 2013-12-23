@@ -175,6 +175,13 @@ namespace test {
 		  deltay /= distance;
 		  a.IncVel(deltax * b.GetSize(), deltay * b.GetSize());
 		  b.DecVel(deltax * a.GetSize(), deltay * a.GetSize());
+
+		  if (a.GetSize() > 7.5f) {
+			a.SetDead(true);
+		  }
+		  if (b.GetSize() > 7.5f) {
+			b.SetDead(true);
+		  }
 		}
 	  };
 

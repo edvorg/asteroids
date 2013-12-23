@@ -16,7 +16,7 @@ namespace test {
 
 	PushPostSpawn([this] (DecorateStar & star) {
 		// throw particles from back of owner orientation
-		star.SetSize(Rand<double>(0.5, 5, 1));
+		star.SetSize(5);
         float angle = Rand<float>(0.0, M_PI * 2.0, 0.01);
         float rad = Rand<float>(0.0, ownerSize, 0.01);
 		star.SetPos(ownerX + cos(angle) * rad,
@@ -26,7 +26,7 @@ namespace test {
 	  });
 
 	PushLife([] {
-		return 0.5f;
+		return 0.25f;
 	  });
   }
 

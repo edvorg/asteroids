@@ -10,13 +10,14 @@ namespace test {
   }
 
   void Asteroid::Update(double dt) {
-	tail.SetSpawning(GetVelX() * GetVelX() + GetVelY() * GetVelY() > 400);
+	tail.SetSpawning(GetVelX() * GetVelX() + GetVelY() * GetVelY() > 400 && GetSize() < 5.0);
 	tail.Update(dt);
 	tail.SetOwnerX(GetPosX());
 	tail.SetOwnerY(GetPosY());
 	tail.SetOwnerVelX(GetVelX());
 	tail.SetOwnerVelY(GetVelY());
 	tail.SetOwnerSize(GetSize());
+	DecVelY(10 * dt);
   }
 
   void Asteroid::Draw() {
