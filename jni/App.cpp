@@ -30,7 +30,7 @@ namespace test {
 	  asteroids.SetLevel(progress.GetLevel());
 	  spliceAsteroids.SetLevel(progress.GetLevel());
 
-	  livesTotal = 0;
+	  int livesTotal = 0;
 	  int activeTotal = 0;
 	  int spawnedTotal = 0;
 
@@ -86,12 +86,6 @@ namespace test {
 				 progress.GetLevel());
 	  DrawNumber(true,
 				 5.0f,
-				 fieldHeight - 10.0f,
-				 1,
-				 1.5,
-				 livesTotal);
-	  DrawNumber(true,
-				 5.0f + fieldWidth * 0.5,
 				 fieldHeight - 10.0f,
 				 1,
 				 1.5,
@@ -156,8 +150,11 @@ namespace test {
 	for (int i = 0; i < maxPlayersCount; i++) {
 	  players[i].FieldSize(fieldWidth, fieldHeight);
 	  auto x = 5 + (fieldWidth - 10.0f) / (maxPlayersCount - 1) * i;
+	  players[i].LiveCorner(x,
+							5,
+							x < fieldWidth * 0.5 ? true : false);
 	  players[i].RespawnTimeCorner(x,
-								   5,
+								   10,
 								   x < fieldWidth * 0.5 ? true : false);
 	}
   }

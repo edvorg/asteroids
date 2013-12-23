@@ -47,6 +47,7 @@ namespace test {
 	inline int IsActive() const { return active; }
 	void FieldSize(float w, float h);
 	void RespawnTimeCorner(float x, float y, bool fromLeft);
+	void LiveCorner(float x, float y, bool fromLeft);
 
   protected:
   private:
@@ -73,6 +74,9 @@ namespace test {
 	float respawnTimerX = 0.0f;
 	float respawnTimerY = 0.0f;
 	float respawnTimerFromLeft = true;
+	float LiveX = 0.0f;
+	float LiveY = 0.0f;
+	float LiveFromLeft = true;
   };
 
   template<class PARTICLE>

@@ -39,7 +39,6 @@ namespace test {
  	DecorateStars stars;
 
 	Player players[maxPlayersCount];
-	int livesTotal = 0;
 	float scoreTotal = 0.0f;
 
 	LevelProgress progress;

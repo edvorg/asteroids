@@ -72,13 +72,21 @@ namespace test {
 	tail.Draw();
 	bullets.Draw();
 
-	if (!IsSpawned() && respawnTimer < respawnPeriod && GetLives() > 0 && IsActive()) {
-	  DrawNumber(respawnTimerFromLeft,
-				 respawnTimerX,
-				 respawnTimerY,
+	if (IsActive()) {
+	  if (!IsSpawned() && respawnTimer < respawnPeriod && GetLives() > 0) {
+		DrawNumber(respawnTimerFromLeft,
+				   respawnTimerX,
+				   respawnTimerY,
+				   1,
+				   1.5,
+				   std::max<float>(0.1f, 1.0f + respawnPeriod - respawnTimer));
+	  }
+	  DrawNumber(LiveFromLeft,
+				 LiveX,
+				 LiveY,
 				 1,
 				 1.5,
-				 std::max<float>(0.1f, 1.0f + respawnPeriod - respawnTimer));
+				 lives);
 	}
   }
 
@@ -138,6 +146,12 @@ namespace test {
 	respawnTimerX = x;
 	respawnTimerY = y;
 	respawnTimerFromLeft = fromLeft;
+  }
+
+  void Player::LiveCorner(float x, float y, bool fromLeft) {
+	LiveX = x;
+	LiveY = y;
+	LiveFromLeft = fromLeft;
   }
 
 }
