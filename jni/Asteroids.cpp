@@ -13,7 +13,21 @@ namespace test {
 		return Rand<float>(periodMin, periodMax, 0.01);
 	  });
 
-	PushPreDestroy([&] (Asteroid & destroyed) {
+	PushPostSpawn([this] (Asteroid & a) {
+		a.size = Rand<double>(1, 10, 1);
+		a.x = Rand<double>(0, GetFieldWidth(), 1);
+		a.y = Rand<float>(GetFieldHeight() + a.size,
+						  GetFieldHeight() * 1.5, 0.1);
+		a.angle = 0;
+		a.velX = Rand<double>(0.1, 1.0, 0.1);
+		a.velY = Rand<double>(-10, -30, -1);
+		a.velAngle = Rand<double>(-90.0, 90.0, 1.0);
+		a.lifeTimer = 0.0f;
+		a.tail.FieldSize(GetFieldWidth(), GetFieldHeight());
+		a.tail.FieldPos(0, 0);
+	  });
+
+	PushPreDestroy([this] (Asteroid & destroyed) {
 		if (destroyed.size > minCrushSize) {
 		  // crush asteroid in smaller parts
 

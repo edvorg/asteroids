@@ -31,19 +31,6 @@ namespace test {
 	tail.Release();
   }
 
-  void Asteroid::Respawn(const RandomizeParams & params) {
-	size = Rand<double>(1, 10, 1);
-	x = Rand<double>(0, params.fieldWidth, 1);
-	y = Rand<float>(params.fieldHeight + size, params.fieldHeight * 1.5, 0.1);
-	angle = 0;
-	velX = Rand<double>(0.1, 1.0, 0.1);
-	velY = Rand<double>(-10, -30, -1);
-	velAngle = Rand<double>(-90.0, 90.0, 1.0);
-	lifeTimer = 0.0f;
-	tail.FieldSize(params.fieldWidth, params.fieldHeight);
-	tail.FieldPos(0, 0);
-  }
-
   Dimensions Asteroid::GetDimensions() const {
 	return Dimensions(x, y, size);
   }

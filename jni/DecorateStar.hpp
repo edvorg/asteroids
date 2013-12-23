@@ -5,8 +5,6 @@
 
 namespace test {
 
-  class RandomizeParams;
-
   // DecorateStars particle system product
   class DecorateStar {
 
@@ -23,7 +21,6 @@ namespace test {
 	void Update(double dt);
 	void Draw();
 	void Release();
-	void Respawn(const RandomizeParams & params);
 	Dimensions GetDimensions() const;
 
   protected:

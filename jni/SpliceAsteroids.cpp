@@ -8,6 +8,8 @@ namespace test {
   void SpliceAsteroids::Init() {
 	Asteroids::Init();
 
+	auto topPostSpawn = TopPostSpawn();
+
 	PushPeriod([this] {
 		if (active) {
 		  return spawnPeriodActive;
@@ -19,7 +21,13 @@ namespace test {
 
 	// use some generated data from Super and modify for our task
 
-	PushPostSpawn([&] (Asteroid & created) {
+	PushPostSpawn([this, topPostSpawn] (Asteroid & created) {
+		// call old callback
+
+		topPostSpawn(created);
+
+		// change some settings
+
 		created.x = Rand(- GetFieldWidth() * 0.5f,
 						 0.0f,
 						 0.1f);

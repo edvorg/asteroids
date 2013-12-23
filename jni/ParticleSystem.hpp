@@ -49,18 +49,22 @@ namespace test {
 	// push function returning spawn period (top will be used)
 	void PushPeriod(Period newPeriod);
 	void PopPeriod();
+	Period TopPeriod();
 
 	// push function returning life length for created particles (top will be used)
 	void PushLife(Life newLife);
 	void PopLife();
+	Life TopLife();
 
 	// push callback for particle post spawn event (top will be used)
 	void PushPostSpawn(PostSpawn newPostSpawn);
 	void PopPostSpawn();
+	PostSpawn TopPostSpawn();
 
 	// push callback for particle pre destroy event (top will be used)
 	void PushPreDestroy(PreDestroy newPreDestroy);
 	void PopPreDestroy();
+	PreDestroy TopPreDestroy();
 
 	// spawn particles every period seconds
 	void SetSpawning(bool enable);
@@ -226,6 +230,11 @@ namespace test {
   }
 
   template<class PARTICLE>
+  typename ParticleSystem<PARTICLE>::Period ParticleSystem<PARTICLE>::TopPeriod() {
+	return periods.top();
+  }
+
+  template<class PARTICLE>
   void ParticleSystem<PARTICLE>::PushLife(Life newLife) {
 	lifes.push(newLife);
   }
@@ -235,6 +244,11 @@ namespace test {
 	if (lifes.size()) {
 	  lifes.pop();
 	}
+  }
+
+  template<class PARTICLE>
+  typename ParticleSystem<PARTICLE>::Life ParticleSystem<PARTICLE>::TopLife() {
+	return lifes.top();
   }
 
   template<class PARTICLE>
@@ -250,6 +264,11 @@ namespace test {
   }
 
   template<class PARTICLE>
+  typename ParticleSystem<PARTICLE>::PostSpawn ParticleSystem<PARTICLE>::TopPostSpawn() {
+	return postSpawns.top();
+  }
+
+  template<class PARTICLE>
   void ParticleSystem<PARTICLE>::PushPreDestroy(PreDestroy newPreDestroy) {
 	preDestroys.push(newPreDestroy);
   }
@@ -262,6 +281,11 @@ namespace test {
   }
 
   template<class PARTICLE>
+  typename ParticleSystem<PARTICLE>::PreDestroy ParticleSystem<PARTICLE>::TopPreDestroy() {
+	return preDestroys.top();
+  }
+
+  template<class PARTICLE>
   void ParticleSystem<PARTICLE>::SetSpawning(bool enable) {
 	spawning = enable;
   }
@@ -271,7 +295,6 @@ namespace test {
 	if (used < poolSize) {
 	  auto index = used;
 	  used++;
-	  pool[index].Respawn(params);
 	  if (postSpawns.size()) {
 		postSpawns.top()(pool[index]);
 	  }
@@ -285,7 +308,6 @@ namespace test {
 		preDestroys.top()(pool[index]);
 	  }
 	  used--;
-
 	  if (index < used) {
 		pool[index] = pool[used];
 	  }

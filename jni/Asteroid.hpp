@@ -1,7 +1,6 @@
 #ifndef ASTEROID_HPP
 #define ASTEROID_HPP
 
-#include "RandomizeParams.hpp"
 #include "Dimensions.hpp"
 #include "CometTail.hpp"
 
@@ -26,7 +25,6 @@ namespace test {
 	void Update(double dt);
 	void Draw();
 	void Release();
-	void Respawn(const RandomizeParams & params);
 	Dimensions GetDimensions() const;
 
 	Asteroid & operator =(const Asteroid & another);

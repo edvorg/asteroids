@@ -1,7 +1,6 @@
 #ifndef BULLET_HPP
 #define BULLET_HPP
 
-#include "RandomizeParams.hpp"
 #include "Dimensions.hpp"
 
 namespace test {
@@ -24,7 +23,6 @@ namespace test {
 	void Update(double dt);
 	void Draw();
 	void Release();
-	void Respawn(const RandomizeParams & params);
 	Dimensions GetDimensions() const;
 
   protected:

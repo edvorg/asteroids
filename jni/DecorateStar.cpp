@@ -7,7 +7,6 @@
 namespace test {
 
   void DecorateStar::Init() {
-
   }
 
   void DecorateStar::Update(double dt) {
@@ -21,16 +20,6 @@ namespace test {
   }
 
   void DecorateStar::Release() {
-
-  }
-
-  void DecorateStar::Respawn(const test::RandomizeParams &params) {
-	size = Rand<double>(0.5, 5, 1);
-	x = Rand<double>(0, params.fieldWidth, 1);
-	y = params.fieldHeight + size;
-	velX = Rand<double>(0.1, 1.0, 0.1);
-	velY = Rand<double>(-10, -40, -1) * size;
-	lifeTimer = 0.0f;
   }
 
   Dimensions DecorateStar::GetDimensions() const {
