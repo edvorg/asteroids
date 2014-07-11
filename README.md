@@ -18,3 +18,5 @@ geneare ndk project
 build and deploy on device
 
 ./deploy
+
+enjoy :)
